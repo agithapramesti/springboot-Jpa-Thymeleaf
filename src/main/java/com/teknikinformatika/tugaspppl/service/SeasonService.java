@@ -1,0 +1,74 @@
+package com.teknikinformatika.tugaspppl.service;
+
+import com.teknikinformatika.tugaspppl.dao.cabang.CabangDao;
+import com.teknikinformatika.tugaspppl.dao.season.SeasonDao;
+
+import com.teknikinformatika.tugaspppl.model.Season;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Transactional
+public class SeasonService {
+    @Autowired
+    SeasonDao seasonDao;
+    @Autowired
+    CabangDao cabangDao;
+
+    public Model getAllSeasonFromDB(Model model){
+        int lantai=2, nokamar=1;
+        String kodenya="ED";
+        String hasil = lantai+""+nokamar+kodenya;
+        System.out.println("test gabungin!"+hasil);
+        model.addAttribute("season",seasonDao.findAll());
+        return model;
+    }
+    public List<String> getAllAvailableSeason(){
+        ArrayList<String> nama = new ArrayList<>();
+        nama.add("High Season");
+        nama.add("Promo");
+        nama.add("Normal");
+
+        return nama;
+    }
+    public Model manageTambahSeason(Model model){
+        model.addAttribute("season",new Season());
+        model.addAttribute("namaSeason", getAllAvailableSeason());
+        model.addAttribute("cabang", cabangDao.getAllCabang());
+        return model;
+    }
+    public String save(Model model, Season season){
+        /*
+            tempPelanggan;
+            Pelanggan p ;
+            p.setId(temp.)
+            u.setId(tem
+            pelangga.save(p)
+            user.sae(
+        * */
+        if(season.getStatuSeason()==0){
+            season.setStatuSeason(1);
+        }
+        seasonDao.save(season);
+        return "redirect:/season";
+    }
+    public Model manageEditSeason(Model model, int id){
+        model.addAttribute("season",seasonDao.findBySeasonId(id));
+        model.addAttribute("cabang", cabangDao.getAllCabang());
+        return model;
+    }
+    public void softDelete(int id){
+        seasonDao.softDelete(id);
+    }
+    public Model searchSeasonByNamaSeason(Model model, String namaSeason){
+
+        model.addAttribute("season",seasonDao.getAllSeasonByNamaSeason(namaSeason));
+        return model;
+    }
+
+}

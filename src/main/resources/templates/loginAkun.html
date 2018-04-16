@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/daftarCss.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body class="bd-login">
+<div id="fullscreen_bg" class="fullscreen_bg"/>
+<div id="regContainer" class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+
+                        <div class="col-xs-12">
+                            <a href="#" id="register-form-link">Login</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <form th:action="@{/loginAkun}" method="post">
+                                <fieldset>
+                                    <div class="panel-body">
+
+                                        <div class="form-group">
+                                            <div class="row-fluid input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+
+                                                <input type="text" name="username" id="username" class="form-control"
+                                                       placeholder="Username" required="true" autofocus="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row-fluid input-group ip-pwd">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                <input type="password" name="password" id="password" class="form-control"
+                                                       placeholder="Password" required="true"/>
+                                            </div>
+                                        </div>
+                                        <input type="submit" class="btn btn-default pull-right btn-all btn-block" value="Login"/>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

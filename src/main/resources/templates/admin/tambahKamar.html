@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+
+
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+
+    <link th:href="@{/css/customerPage.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Grand Atma Hotels</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">Reservasi</a></li>
+                <li><a href="/season">Promo</a></li>
+
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/dataPelanggan">Data Pelanggan</a></li>
+                        <li><a href="/dataPegawai">Data Pegawai</a></li>
+                        <li><a href="/dataKamar">Data Kamar</a></li>
+                        <li><a href="#">Data Jenis Kamar</a></li>
+                        <li><a href="#">Laporan Pelanggan Baru</a></li>
+                        <li><a href="#">Laporan Pendapatan Bulanan</a></li>
+                        <li><a href="#">Laporan Jumlah Tamu</a></li>
+                        <li><a href="#">Laporan 5 Pelanggan Reservasi Terbanyak</a></li>
+                        <li><a href="#">Laporan Pendapatan Tahunan</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Keluar</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <legend>Tambah Kamar:</legend>
+        </div>
+        <!-- panel preview -->
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body form-horizontal payment-form">
+                    <form  name="myForm" action="js" onsubmit="return validateForm()"  th:object="${kamar}" th:action="@{/dataKamar/}" method="post">
+                        <input type="hidden" th:field="*{kamarId}"/>
+                        <input type="hidden" th:field="*{kodeKamar}"/>
+                        <input type="hidden" th:field="*{statusKamar}"/>
+
+                        <div class="form-group">
+                            <label for="role" class="col-sm-3 control-label">Tipe Kasur Tersedia</label>
+                            <div class="col-sm-9">
+                                <select th:field="*{tipeKasur.idTipe}"  class="form-control" id="role" >
+                                    <option th:each="tipe: ${tipe}"
+                                            th:value="${tipe.idTipe}"
+                                            th:text="${tipe.namaTipe}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="role" class="col-sm-3 control-label">Jenis Kamar</label>
+                            <div class="col-sm-9">
+                                <select th:field="*{jenisKamar.jenisKamarId}"  class="form-control" >
+                                    <option th:each="jenisKamars: ${jenisKamars}"
+                                            th:value="${jenisKamars.jenisKamarId}"
+                                            th:text="${jenisKamars.namaJenisKamar}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lantai" class="col-sm-3 control-label">Lantai</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{lantai}" type="number" class="form-control" id="lantai" name="lantai" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="noKam" class="col-sm-3 control-label">Nomor Kamar</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{nomorKamar}" type="number" class="form-control" id="noKam" name="noKam" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Status Rokok</label>
+                            <div class="col-sm-9">
+                                <input name="fname"  th:field="*{statusRokok}" type="text" class="form-control"  placeholder="Merokok/Tidak Merokok" required>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <hr style="border:1px dashed #dddddd;">
+                                <button type="submit" class="btn btn-danger btn-block">Submit dan selesai</button>
+                            </div>
+                        </div>
+                        <button onclick="myFunction()">Try it</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function myFunction() {
+        alert("I am an alert box!");
+    }
+    function validateForm() {
+        var x = document.forms["myForm"]["fname"].value;
+        if (x == "Merokok" || x == "Tidak Merokok") {
+            alert("Isian Anda Salah! Silahkan Inputkan dengan Benar. ");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
