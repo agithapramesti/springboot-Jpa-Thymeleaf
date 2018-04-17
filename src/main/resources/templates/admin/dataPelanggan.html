@@ -55,7 +55,10 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Keluar</a></li>
+                <form th:action="@{/logout}" method="post">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <input type="submit" value="Keluar" class="btn btn-danger"/>
+                </form>
 
             </ul>
         </div>
@@ -64,13 +67,6 @@
 <div class="row">
     <br><br>
 
-    <!--<div class="col-md-10 col-md-offset-1">-->
-        <!--<form th:action="@{/dataPelanggan/cari}" >-->
-            <!--<input style="float:left;" type="text" class="form-control" name="username" th:value="${username}" placeholder="Masukan Username yang ingin dicari.."  required>-->
-            <!--<button  style="float:right;"  class="btn btn-search btn-primary" type="submit"><i class="glyphicon glyphicon-search fa fa-search fa-fw">Cari</i>-->
-            <!--</button>-->
-        <!--</form>-->
-    <!--</div>-->
 </div>
 <div class="row">
     <br><br>

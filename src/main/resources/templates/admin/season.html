@@ -67,15 +67,7 @@
 
     <div class="row">
         <br><br>
-        <!--<div class="col-md-10 col-md-offset-1">-->
-            <!--<form th:action="@{/season/cari}" >-->
-                <!--<br><br>-->
-                <!--<input style="float:left;" type="text" class="form-control" name="namaSeason" th:value="${namaSeason}" placeholder="Nama season yang ingin dicari.."  required>-->
-                <!--<button  style="float:right;"  class="btn btn-search btn-primary" type="submit"><i class="glyphicon glyphicon-search fa fa-search fa-fw">Cari</i>-->
-                <!--</button>-->
-                <!--<br><br>-->
-            <!--</form>-->
-        <!--</div>-->
+
     </div>
     <div class="row">
         <br><br>
@@ -112,8 +104,8 @@
                         <tbody>
                         <tr th:each="season: ${season}">
                             <td class="text-center">
-                                <a class="btn btn-info btn-xs" th:href="">
-                            <span class="glyphicon glyphicon-edit">${'/season/editSeason/'+season.seasonId}
+                                <a class="btn btn-info btn-xs" th:href="${'/season/editSeason/'+season.seasonId}">
+                            <span class="glyphicon glyphicon-edit">
 
                             </span>
                                 </a>
