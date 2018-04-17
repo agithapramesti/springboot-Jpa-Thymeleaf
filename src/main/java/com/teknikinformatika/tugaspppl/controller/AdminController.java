@@ -24,6 +24,11 @@ public class AdminController {
 
         return "home";
     }
+    @RequestMapping("/login")
+    public String login() {
+
+        return "login";
+    }
     @RequestMapping(value = {"/dataPelanggan"},method = RequestMethod.GET)
     public String dataPelanggan(Model model) {
         model=userService.getAllUsers(model);

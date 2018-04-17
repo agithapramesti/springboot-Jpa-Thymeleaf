@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CabangDaoCustom {
     List<Cabang> getAllCabang();
+    List<Cabang> getAllCabangNotIncludedByKamarId(int id);
 }

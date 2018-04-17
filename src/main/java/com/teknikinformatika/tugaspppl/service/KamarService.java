@@ -75,30 +75,30 @@ public class KamarService {
         kamarDao.save(kamar);
         return "redirect:/dataKamar";
     }
-    /*
-    * public String addCourse(@PathVariable("id") Long studentId, Model model){
-    	model.addAttribute("courses", crepository.findAll());
-		model.addAttribute("student", repository.findOne(studentId));
-    	return "addStudentCourse";
-    }*/
+
     public Model tambahCabangKamar(Model model, int id){
-        model.addAttribute("kamar",kamarDao.findById(id));
-        model.addAttribute("cabang", cabangDao.findAll());
+        model.addAttribute("kamar",kamarDao.getOne(id));
+        model.addAttribute("cabang", cabangDao.getAllCabangNotIncludedByKamarId(id));
         return model;
     }
-//    public String simpanCabangKamar(int kamarId, int cabangId, Model model){
-//        Cabang cabang = cabangDao.getOne(cabangId);
-//        Kamar kamar = kamarDao.getOne(kamarId);
-//        if(kamar != null){
-//            if(!kamar.hasCabang(cabang)){
-//                kamar.caban().add(cabang);
-//            }
-//            kamarDao.save(kamar);
-//            model.addAttribute("kamar",kamarDao.getOne(kamarId));
-//            model.addAttribute("cabang", cabangDao.findAll());
-//            return "redirect:/dataKamar";
-//        }
-//        return "redirect:/dataKamar";
-//
-//    }
+    public String simpanCabangKamar(int kamarId, int cabangId, Model model){
+
+        Cabang cabang = cabangDao.getOne(cabangId);
+        Kamar kamar = kamarDao.getOne(kamarId);
+        if(kamar != null){
+
+            if(!kamar.hasCabang(cabang)){
+
+                kamar.getCabangs().add(cabang);
+            }
+            kamarDao.save(kamar);
+
+            model.addAttribute("kamar",kamarDao.getOne(kamarId));
+            model.addAttribute("cabang", cabangDao.findAll());
+            return "redirect:/dataKamar";
+        }
+
+        return "redirect:/dataKamar";
+
+    }
 }

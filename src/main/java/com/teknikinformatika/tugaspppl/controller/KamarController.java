@@ -33,31 +33,16 @@ public class KamarController {
         model = kamarService.manageEditKamar(model, id);
         return "/admin/tambahKamar";
     }
+
+    @RequestMapping(value="/datakamar/{id}/cabang", method=RequestMethod.GET)
+    public String simpanKamarCabang(@PathVariable int id, @RequestParam int cabangId, Model model) {
+        System.out.println("hey gendut");
+        return kamarService.simpanCabangKamar(id, cabangId, model);
+    }
     @RequestMapping(value = "tambahCabangKamar/{id}", method = RequestMethod.GET)
     public String tambahCabang(@PathVariable("id") int id, Model model){
+
         model = kamarService.tambahCabangKamar(model, id);
-        return "tambahCabangKamar";
+        return "/admin/tambahCabangKamar";
     }
-    /*
-    * @RequestMapping(value="/student/{id}/courses", method=RequestMethod.GET)
-	public String studentsAddCourse(@PathVariable Long id, @RequestParam Long courseId, Model model) {
-		Course course = crepository.findOne(courseId);
-		Student student = repository.findOne(id);
-
-		if (student != null) {
-			if (!student.hasCourse(course)) {
-				student.getCourses().add(course);
-			}
-			repository.save(student);
-			model.addAttribute("student", crepository.findOne(id));
-			model.addAttribute("courses", crepository.findAll());
-			return "redirect:/students";
-		}
-
-		return "redirect:/students";
-//	}*/
-//    @RequestMapping(value="/kamar/{id}/cabang", method=RequestMethod.GET)
-//    public String simpanKamarCabang(@PathVariable int id, @RequestParam int cabangId, Model model) {
-//        return kamarService.simpanCabangKamar(id, cabangId, model);
-//    }
 }
