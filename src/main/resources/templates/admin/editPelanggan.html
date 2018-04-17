@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
     <script th:src="@{/js/jquery-3.3.1.js}"></script>
-    <script th:src="@{/js/moment.js}"></script>
     <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
     <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
     <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
     <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
@@ -17,7 +17,6 @@
 
 
     <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
-
     <link th:href="@{/css/customerPage.css}" rel="stylesheet" media="screen"/>
 
 </head>
@@ -67,20 +66,20 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <legend>Pegawai:</legend>
+            <legend>Pelanggan Personal:</legend>
         </div>
         <!-- panel preview -->
         <div class="col-sm-12">
 
             <div class="panel panel-default">
                 <div class="panel-body form-horizontal payment-form">
-                    <form th:object="${users}" th:action="@{/dataPegawai/}" method="post">
+                    <form th:object="${users}" th:action="@{/dataPelanggan/}" method="post">
                         <input type="hidden" th:field="*{userId}"/>
                         <input type="hidden" th:field="*{statusUser}"/>
-                        <input type="hidden" th:field="*{namaPemegangKartu}"/>
-                        <input type="hidden" th:field="*{noKartu}"/>
+                        <input type="hidden" th:field="*{role.roleId}"/>
+                        <input type="hidden" th:field="*{kataSandi}"/>
                         <div class="form-group">
-                            <label for="nama" class="col-sm-3 control-label">Nama Pegawai</label>
+                            <label for="nama" class="col-sm-3 control-label">Nama Pelanggan</label>
                             <div class="col-sm-9">
                                 <input  th:field="*{nama}"  maxlength="25"  type="text" class="form-control" id="nama" name="nama" required>
                             </div>
@@ -110,17 +109,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="role" class="col-sm-3 control-label">Peran</label>
-                            <div class="col-sm-9">
-                                <select th:field="*{role.roleId}"  class="form-control" id="role" >
-                                    <option th:each="roles : ${roles}"
-                                            th:value="${roles.roleId}"
-                                            th:text="${roles.namaRole}">
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="status" class="col-sm-3 control-label">Cabang</label>
                             <div class="col-sm-9">
                                 <select th:field="*{cabang.cabangId}"  class="form-control" id="status" >
@@ -132,15 +120,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="usernamee" class="col-sm-3 control-label">Username</label>
+                            <label for="namaPemegangKartu" class="col-sm-3 control-label">Nama Pemegang Kartu</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{username}"  maxlength="8" type="text" class="form-control" id="usernamee" name="usernamee" required>
+                                <input  th:field="*{namaPemegangKartu}"  type="text" class="form-control" id="namaPemegangKartu" name="namaPemegangKartu" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="kataSandii" class="col-sm-3 control-label">Kata Sandi</label>
+                            <label for="noKartu" class="col-sm-3 control-label">Nomor Kartu</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{kataSandi}"  maxlength="8"  type="password" class="form-control" id="kataSandii" name="kataSandii" required>
+                                <input  th:field="*{noKartu}"  type="text" class="form-control" id="noKartu" name="noKartu" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usernamee" class="col-sm-3 control-label">Username</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{username}"  maxlength="8" type="text" class="form-control" id="usernamee" name="usernamee" required>
                             </div>
                         </div>
 
@@ -151,9 +145,11 @@
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
-        </div>
+        </div> <!-- / panel preview -->
+
     </div>
 </div>
 <script type="text/javascript">

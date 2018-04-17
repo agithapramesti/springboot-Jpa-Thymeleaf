@@ -66,7 +66,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <legend>Tambah Season:</legend>
+            <legend>Season:</legend>
         </div>
         <!-- panel preview -->
         <div class="col-sm-12">
@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <hr style="border:1px dashed #dddddd;">
-                                <button type="submit" class="btn btn-danger btn-block">Submit dan selesai</button>
+                                <button type="submit" onclick="myFunction()" class="btn btn-danger btn-block">Submit dan selesai</button>
                             </div>
                         </div>
                     </form>
@@ -141,6 +141,9 @@
         $('#datetimepicker1').datetimepicker();
         $('#datetimepicker2').datetimepicker();
     });
+    function myFunction() {
+        alert("Proses Berhasil!");
+    }
 </script>
 </body>
 </html>

@@ -36,6 +36,7 @@ public class AdminController {
     }
     @RequestMapping(value = {"/dataPelanggan"},method = RequestMethod.POST)
     public String simpanPelanggan(@ModelAttribute("users")User user, Model model) {
+
         return userService.saveUser(model,user);
     }
     @RequestMapping(value = "dataPelanggan/cari",method = RequestMethod.GET)
@@ -52,7 +53,7 @@ public class AdminController {
     @RequestMapping(value = "/dataPelanggan/editPelanggan/{id}", method = RequestMethod.GET)
     public String editDataPelanggan(@PathVariable int id, Model model) {
         model = userService.manageEditPelangganPersonal(model,id);
-        return "/admin/tambahPelanggan";
+        return "/admin/editPelanggan";
     }
     @RequestMapping(value = "dataPelanggan/softdelete/{id}",method = RequestMethod.GET)
     public String softDeleteDataPelanggan(@PathVariable int id){
@@ -75,7 +76,7 @@ public class AdminController {
     @RequestMapping(value = "/dataPegawai/editPegawai/{id}", method = RequestMethod.GET)
     public String editDataPegawai(@PathVariable int id, Model model) {
         model = userService.manageEditPegawai(model,id);
-        return "/admin/tambahPegawai";
+        return "/admin/editPegawai";
     }
     @RequestMapping(value = "dataPegawai/softdelete/{id}",method = RequestMethod.GET)
     public String softDeleteDataPegawai(@PathVariable int id){

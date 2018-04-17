@@ -10,5 +10,5 @@ public interface UserDaoCustom {
     List<User> findAllUsers();
     User softDeleteUser(int id);
     List<User> findAllPegawai();
-    int getIdNext();
+    int getStatusUserById(int id);
 }

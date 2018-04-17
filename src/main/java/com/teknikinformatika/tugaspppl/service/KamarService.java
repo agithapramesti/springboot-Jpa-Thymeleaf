@@ -26,6 +26,7 @@ public class KamarService {
     @Autowired
     private CabangDao cabangDao;
     public Model getAllKamars(Model model){
+
         model.addAttribute("kamar",kamarDao.findAll());
         return model;
     }
@@ -67,11 +68,20 @@ public class KamarService {
     }
 
     public String saveKamar(Kamar kamar,Model model){
-        String temp= "";
-        kamar.setStatusKamar(1);
-        temp = generateKodeKamar(kamar.getJenisKamar().getJenisKamarId(),kamar.getLantai(),kamar.getNomorKamar());
-        kamar.setKodeKamar(temp);
 
+        String temp= "";
+        if(kamar.getKamarId()==0) {
+            kamar.setStatusKamar(1);
+
+        }
+        else
+        {
+            int id= kamar.getKamarId();
+            int statusKamar = kamarDao.getStatusKamarById(id);
+            kamar.setStatusKamar(statusKamar);
+        }
+        temp = generateKodeKamar(kamar.getJenisKamar().getJenisKamarId(), kamar.getLantai(), kamar.getNomorKamar());
+        kamar.setKodeKamar(temp);
         kamarDao.save(kamar);
         return "redirect:/dataKamar";
     }
@@ -101,4 +111,8 @@ public class KamarService {
         return "redirect:/dataKamar";
 
     }
+    public Kamar softDeleteKamar(int id){
+        return kamarDao.softDelete(id);
+    }
+
 }

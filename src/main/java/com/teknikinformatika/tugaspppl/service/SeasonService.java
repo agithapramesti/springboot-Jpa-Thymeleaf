@@ -43,14 +43,7 @@ public class SeasonService {
         return model;
     }
     public String save(Model model, Season season){
-        /*
-            tempPelanggan;
-            Pelanggan p ;
-            p.setId(temp.)
-            u.setId(tem
-            pelangga.save(p)
-            user.sae(
-        * */
+
         if(season.getStatuSeason()==0){
             season.setStatuSeason(1);
         }

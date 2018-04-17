@@ -105,12 +105,12 @@
                     <tbody>
                         <tr th:each="kamar: ${kamar}">
                             <td class="text-center">
-                                <a class="btn btn-info btn-xs">
+                                <a class="btn btn-info btn-xs" th:href="${'/dataKamar/editKamar/'+kamar.kamarId}">
                             <span class="glyphicon glyphicon-edit">
 
                             </span>
                                 </a>
-                                <a class="btn btn-danger btn-xs">
+                                <a class="btn btn-info btn-xs" th:href="${'/dataKamar/softdelete/'+kamar.kamarId}">
                             <span class="glyphicon glyphicon-remove">
 
                             </span>
@@ -120,9 +120,9 @@
                             <td th:text="${kamar.nomorKamar}"></td>
                             <td th:text="${kamar.kodeKamar}"></td>
                             <td  th:if="${kamar.jenisKamar.jenisKamarId== 1}" th:text="Superior"></td>
-                            <td  th:if="${kamar.jenisKamar.jenisKamarId== 2}" th:text="Double Deluxe"></td>
-                            <td  th:if="${kamar.jenisKamar.jenisKamarId== 3}" th:text="Executive Deluxe"></td>
-                            <td  th:if="${kamar.jenisKamar.jenisKamarId== 4}" th:text="Junior Suite"></td>
+                            <td  th:if="${kamar.jenisKamar.jenisKamarId== 2}" th:text="Double-Deluxe"></td>
+                            <td  th:if="${kamar.jenisKamar.jenisKamarId== 3}" th:text="Executive-Deluxe"></td>
+                            <td  th:if="${kamar.jenisKamar.jenisKamarId== 4}" th:text="Junior-Suite"></td>
                             <td th:text="${kamar.lantai}"></td>
                             <td th:text="${kamar.jenisKamar.hargaJenisKamar}"></td>
                             <td th:if="${kamar.statusKamar==1}" th:text="Aktif"></td>

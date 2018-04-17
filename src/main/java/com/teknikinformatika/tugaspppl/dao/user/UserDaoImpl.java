@@ -56,13 +56,10 @@ public class UserDaoImpl extends My_Connection implements UserDaoCustom {
                 "SELECT * FROM `user`  where user.role_id!=7 and user.role_id!=8", User.class).getResultList();
         return result;
     }
-    @Autowired
-    public int getIdNext(){
-        System.out.println("YEEEEEE MASUQ");
-        String psql=" SELECT AUTO_INCREMENT\n" +
-                "FROM information_schema.TABLES\n" +
-                "WHERE TABLE_SCHEMA = \"test01\"\n" +
-                "AND TABLE_NAME = \"user\"";
+    @Override
+    public int getStatusUserById(int id){
+
+        String psql="SELECT user.status_user FROM user WHERE user.user_id='"+id+"'";
         int idTemp=0;
         try {
             this.makeConnection();
@@ -70,11 +67,11 @@ public class UserDaoImpl extends My_Connection implements UserDaoCustom {
             ResultSet resultSet = statement.executeQuery(psql);
             if (resultSet != null)  {
                 while (resultSet.next())    {
-                    idTemp = resultSet.getInt("auto_increment");
+                    idTemp = resultSet.getInt("status_user");
                 }
             }
-            System.out.println("yeyeyey");
-            System.out.println("ini:"+idTemp);
+
+
             this.disconnect();
         } catch (Exception e) {
             System.out.println("Error while get nextval.."+e.toString());

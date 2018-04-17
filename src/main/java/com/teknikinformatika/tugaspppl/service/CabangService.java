@@ -16,4 +16,7 @@ public class CabangService {
     public List<Cabang> getAllCabang(){
         return cabangDao.getAllCabang();
     }
+    public List<Cabang> getAllCabangByKamarId(int id){
+        return cabangDao.getAllCabangByKamarId(id);
+    }
 }

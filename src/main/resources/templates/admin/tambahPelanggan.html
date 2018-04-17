@@ -66,7 +66,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <legend>Tambah Pelanggan Personal:</legend>
+            <legend>Pelanggan Personal:</legend>
         </div>
         <!-- panel preview -->
         <div class="col-sm-12">
@@ -98,7 +98,7 @@
                         <div class="form-group">
                             <label for="email" class="col-sm-3 control-label">Email</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{email}"  maxlength="30"  type="text" class="form-control" id="email" name="email" required>
+                                <input  th:field="*{email}"  maxlength="30"  type="email" class="form-control" id="email" name="email" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -146,7 +146,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <hr style="border:1px dashed #dddddd;">
-                                <button type="submit" class="btn btn-danger btn-block">Submit dan selesai</button>
+                                <button type="submit" onclick="myFunction()" class="btn btn-danger btn-block">Submit dan selesai</button>
                             </div>
                         </div>
                     </form>
@@ -158,7 +158,9 @@
     </div>
 </div>
 <script type="text/javascript">
-
+    function myFunction() {
+        alert("Proses Berhasil!");
+    }
 </script>
 </body>
 </html>

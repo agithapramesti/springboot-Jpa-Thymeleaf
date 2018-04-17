@@ -67,7 +67,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <legend>Tambah Kamar:</legend>
+            <legend>Kamar:</legend>
         </div>
         <!-- panel preview -->
         <div class="col-sm-12">
@@ -125,10 +125,10 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <hr style="border:1px dashed #dddddd;">
-                                <button type="submit" class="btn btn-danger btn-block">Submit dan selesai</button>
+                                <button type="submit" onclick="myFunction()" class="btn btn-danger btn-block">Submit dan selesai</button>
                             </div>
                         </div>
-                        <button onclick="myFunction()">Try it</button>
+
                     </form>
                 </div>
             </div>
@@ -137,7 +137,7 @@
 </div>
 <script type="text/javascript">
     function myFunction() {
-        alert("I am an alert box!");
+        alert("Proses Berhasil!");
     }
     function validateForm() {
         var x = document.forms["myForm"]["fname"].value;

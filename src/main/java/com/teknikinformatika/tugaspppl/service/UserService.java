@@ -40,7 +40,7 @@ public class UserService {
         return "redirect:/customerPage";
     }
     public Model getAllUsers(Model model){
-        System.out.println("cek id="+userDao.getIdNext());
+
         model.addAttribute("users",userDao.findAllUsers());
         return model;
     }
@@ -54,9 +54,14 @@ public class UserService {
     }
     public String saveUser(Model model, User user){
 
-        if(user.getStatusUser()==0){
+        if(user.getUserId()==0){
             user.getRole().setRoleId(7);
             user.setStatusUser(1);
+        }
+        else{
+            int id =  user.getUserId();
+            int statusUser = userDao.getStatusUserById(id);
+            user.setStatusUser(statusUser);
         }
         userDao.save(user);
         return "redirect:/dataPelanggan";
@@ -90,10 +95,15 @@ public class UserService {
         return model;
     }
     public String savePegawai(Model model, User user){
-        if(user.getStatusUser()==0){
+        if(user.getUserId()==0){
             user.setNamaPemegangKartu("-");
             user.setNoKartu("-");
             user.setStatusUser(1);
+        }
+        else {
+            int id =  user.getUserId();
+            int statusUser = userDao.getStatusUserById(id);
+            user.setStatusUser(statusUser);
         }
         userDao.save(user);
         return "redirect:/dataPegawai";
@@ -104,4 +114,5 @@ public class UserService {
         model.addAttribute("roles",roleDao.findAllRolesPegawai());
         return model;
     }
+
 }

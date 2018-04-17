@@ -67,89 +67,68 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <legend>Pegawai:</legend>
+            <legend>Kamar:</legend>
         </div>
         <!-- panel preview -->
         <div class="col-sm-12">
 
             <div class="panel panel-default">
                 <div class="panel-body form-horizontal payment-form">
-                    <form th:object="${users}" th:action="@{/dataPegawai/}" method="post">
-                        <input type="hidden" th:field="*{userId}"/>
-                        <input type="hidden" th:field="*{statusUser}"/>
-                        <input type="hidden" th:field="*{namaPemegangKartu}"/>
-                        <input type="hidden" th:field="*{noKartu}"/>
+                    <form  name="myForm" action="js" onsubmit="return validateForm()"  th:object="${kamar}" th:action="@{/dataKamar/}" method="post">
+                        <input type="hidden" th:field="*{kamarId}"/>
+                        <input type="hidden" th:field="*{kodeKamar}"/>
+                        <input type="hidden" th:field="*{statusKamar}"/>
                         <div class="form-group">
-                            <label for="nama" class="col-sm-3 control-label">Nama Pegawai</label>
+                            <label for="noKam" class="col-sm-3 control-label">Nomor Kamar</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{nama}"  maxlength="25"  type="text" class="form-control" id="nama" name="nama" required>
+                                <input  th:field="*{nomorKamar}" type="number" class="form-control" id="noKam" name="noKam" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="noIdentitas" class="col-sm-3 control-label">Nomor Identitas</label>
+                            <label for="lantai" class="col-sm-3 control-label">Lantai</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{noIdentitas}"  maxlength="16" type="text" class="form-control" id="noIdentitas" name="noIdentitas" required>
+                                <input  th:field="*{lantai}" type="number" class="form-control" id="lantai" name="lantai" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="noTelp" class="col-sm-3 control-label">Nomor Telpon</label>
+                            <label for="role" class="col-sm-3 control-label">Tipe Kasur Tersedia</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{noTelp}"  maxlength="16"  type="text" class="form-control" id="noTelp" name="noTelp" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="col-sm-3 control-label">Email</label>
-                            <div class="col-sm-9">
-                                <input  th:field="*{email}"  maxlength="30"  type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="alamat" class="col-sm-3 control-label">Alamat</label>
-                            <div class="col-sm-9">
-                                <input  th:field="*{alamat}"  type="text" class="form-control" id="alamat" name="alamat" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="role" class="col-sm-3 control-label">Peran</label>
-                            <div class="col-sm-9">
-                                <select th:field="*{role.roleId}"  class="form-control" id="role" >
-                                    <option th:each="roles : ${roles}"
-                                            th:value="${roles.roleId}"
-                                            th:text="${roles.namaRole}">
+                                <select th:field="*{tipeKasur.idTipe}"  class="form-control" id="role" >
+                                    <option th:each="tipe: ${tipe}"
+                                            th:value="${tipe.idTipe}"
+                                            th:text="${tipe.namaTipe}">
                                     </option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="status" class="col-sm-3 control-label">Cabang</label>
+                            <label for="role" class="col-sm-3 control-label">Jenis Kamar</label>
                             <div class="col-sm-9">
-                                <select th:field="*{cabang.cabangId}"  class="form-control" id="status" >
-                                    <option th:each="cabangs : ${cabangs}"
-                                            th:value="${cabangs.cabangId}"
-                                            th:text="${cabangs.namaCabang}">
+                                <select th:field="*{jenisKamar.jenisKamarId}"  class="form-control" >
+                                    <option th:each="jenisKamars: ${jenisKamars}"
+                                            th:value="${jenisKamars.jenisKamarId}"
+                                            th:text="${jenisKamars.namaJenisKamar}">
                                     </option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label for="usernamee" class="col-sm-3 control-label">Username</label>
+                            <label class="col-sm-3 control-label">Status Rokok</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{username}"  maxlength="8" type="text" class="form-control" id="usernamee" name="usernamee" required>
+                                <input name="fname"  th:field="*{statusRokok}" type="text" class="form-control"  placeholder="Merokok/Tidak Merokok" required>
                             </div>
+
                         </div>
-                        <div class="form-group">
-                            <label for="kataSandii" class="col-sm-3 control-label">Kata Sandi</label>
-                            <div class="col-sm-9">
-                                <input  th:field="*{kataSandi}"  maxlength="8"  type="password" class="form-control" id="kataSandii" name="kataSandii" required>
-                            </div>
-                        </div>
+
 
                         <div class="row">
                             <div class="col-xs-12">
                                 <hr style="border:1px dashed #dddddd;">
-                                <button type="submit" onclick="myFunction()" class="btn btn-danger btn-block">Submit dan selesai</button>
+                                <button type="submit"  onclick="myFunction()" class="btn btn-danger btn-block">Submit dan selesai</button>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -159,6 +138,13 @@
 <script type="text/javascript">
     function myFunction() {
         alert("Proses Berhasil!");
+    }
+    function validateForm() {
+        var x = document.forms["myForm"]["fname"].value;
+        if (x == "Merokok" || x == "Tidak Merokok") {
+            alert("Isian Anda Salah! Silahkan Inputkan dengan Benar. ");
+            return false;
+        }
     }
 </script>
 </body>

@@ -1,16 +1,22 @@
 package com.teknikinformatika.tugaspppl.controller;
 
+import com.teknikinformatika.tugaspppl.model.Cabang;
 import com.teknikinformatika.tugaspppl.model.Kamar;
+import com.teknikinformatika.tugaspppl.service.CabangService;
 import com.teknikinformatika.tugaspppl.service.KamarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class KamarController {
     @Autowired
     private KamarService kamarService;
+    @Autowired
+    private CabangService cabangService;
     @RequestMapping(value = {"/dataKamar"},method = RequestMethod.GET)
     public String dataKamar(Model model) {
         model= kamarService.getAllKamars(model);
@@ -24,14 +30,20 @@ public class KamarController {
     }
     @RequestMapping(value = {"/dataKamar"},method = RequestMethod.POST)
     public String simpanKamar(@ModelAttribute("kamar")Kamar kamar, Model model) {
-        System.out.println("masuk controller1");
-
+        int id = kamar.getKamarId();
+        List<Cabang> cabangs = cabangService.getAllCabangByKamarId(id);
+        kamar.setCabangs(cabangs);
         return kamarService.saveKamar(kamar,model);
     }
     @RequestMapping(value = "/dataKamar/editKamar/{id}", method = RequestMethod.GET)
     public String editKamar(@PathVariable int id, Model model) {
         model = kamarService.manageEditKamar(model, id);
-        return "/admin/tambahKamar";
+        return "/admin/editKamar";
+    }
+    @RequestMapping(value = "/dataKamar/softdelete/{id}",method = RequestMethod.GET)
+    public String softDeleteKamar(@PathVariable int id){
+        kamarService.softDeleteKamar(id);
+        return "redirect:/dataKamar";
     }
 
     @RequestMapping(value="/datakamar/{id}/cabang", method=RequestMethod.GET)
