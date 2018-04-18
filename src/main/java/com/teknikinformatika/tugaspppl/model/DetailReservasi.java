@@ -20,7 +20,7 @@ public class DetailReservasi {
     @Id
     @Column(name = "detail_id")
     private int detailId;
-    @Column(name = "reservas_id", nullable = false)
+    @Column(name = "reservasi_id", nullable = false)
     private int reservasId;
     @Column(name = "jumlah_orang", nullable = false)
     private  int jumlahOrang;

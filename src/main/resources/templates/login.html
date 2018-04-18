@@ -3,16 +3,26 @@
 <head>
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>login</title>
+    <link th:href="@{/css/cssLogin.css}" rel="stylesheet" media="screen"/>
+    <title>Login Grand Atma Hotel</title>
 </head>
 <body>
 <div class="row centered-form">
     <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
         <div class="panel-body">
+            <br><br>
             <form th:action="@{/login}" method="post">
-                <div><label> User Name : <input type="text" name="username" class="form-control"/> </label></div>
-                <div><label> Password: <input type="password" name="password" class="form-control"/> </label></div>
-                <div><input type="submit" value="Sign In" class="btn btn-success"/></div>
+
+                <h2><span class="entypo-login"></span> Login <small>Grand Atma Hotel</small></h2>
+
+                <button class="submit"><span class="entypo-lock"></span></button>
+                <span class="entypo-user inputUserIcon"></span>
+                <input type="text" name="username" class="user" placeholder="ursername"/>
+                <span class="entypo-key inputPassIcon"></span>
+                <input type="password"  name="password" class="pass"placeholder="password"/>
+
+
+
             </form>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -33,4 +43,17 @@
 
 </div>
 </body>
+<script>
+    $(".user").focusin(function(){
+        $(".inputUserIcon").css("color", "#e74c3c");
+    }).focusout(function(){
+        $(".inputUserIcon").css("color", "white");
+    });
+
+    $(".pass").focusin(function(){
+        $(".inputPassIcon").css("color", "#e74c3c");
+    }).focusout(function(){
+        $(".inputPassIcon").css("color", "white");
+    });
+</script>
 </html>

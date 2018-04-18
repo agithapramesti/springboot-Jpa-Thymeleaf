@@ -20,10 +20,7 @@ public class Reservasi {
     @Id
     @Column(name = "reservasi_id")
     private String reservasId;
-//    @Column(name = "cabang_id")
-//    private int cabangId;
-//    @Column(name = "user_id")
-//    private int userId;
+
     @Column(name = "tanggal_reservasi",insertable=true, updatable=true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date tanggalReservasi;

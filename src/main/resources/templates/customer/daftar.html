@@ -20,8 +20,9 @@
 <div class="row centered-form">
     <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
         <div class="panel panel-default">
+
             <div class="panel-heading">
-                <h3 class="panel-title">Daftar <small>Gratis!</small></h3>
+                <h3 class="panel-title">Daftarkan Akun Anda <small>Gratis!</small></h3>
             </div>
             <div class="panel-body">
                 <form <form th:object="${users}" th:action="@{/daftar/}" method="post">
@@ -79,18 +80,10 @@
                     <div class="form-group">
                         <input th:field="*{username}"  maxlength="8" type="text" class="form-control" id="usernamee" name="usernamee"  placeholder="Username" required>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <input th:field="*{kataSandi}"  maxlength="8"  type="password" class="form-control" id="kataSandii" name="kataSandii"  placeholder="Password" required>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <input th:field="*{kataSandi}"  maxlength="8"  type="password" class="form-control" id="kataSandii" name="kataSandii"  placeholder="Password" required>
+                </div>
+
 
                     <input type="submit" value="Register" class="btn btn-info btn-block">
 

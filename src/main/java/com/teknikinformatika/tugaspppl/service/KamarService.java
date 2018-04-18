@@ -30,18 +30,25 @@ public class KamarService {
         model.addAttribute("kamar",kamarDao.findAll());
         return model;
     }
-
+    public Model getAllKamarsTersedia(Model model){
+        model.addAttribute("kamar",kamarDao.getAllKamarsTersedia());
+        return model;
+    }
+    public Model getAllKamarsTidakTersedia(Model model){
+        model.addAttribute("kamar",kamarDao.getAllKamarsTidakTersedia());
+        return model;
+    }
     public Model manageTambahKamar(Model model){
         model.addAttribute("kamar",new Kamar());
         model.addAttribute("tipe",tipeKasurDao.findAll());
         model.addAttribute("cabang",cabangDao.getAllCabang());
-        model.addAttribute("jenisKamars", jenisKamarDao.findAll());
+        model.addAttribute("jenisKamars", jenisKamarDao.getAllJenisKamarActived());
         return model;
     }
     public Model manageEditKamar(Model model, int id){
         model.addAttribute("kamar",kamarDao.findById(id));
         model.addAttribute("tipe",tipeKasurDao.findAll());
-        model.addAttribute("jenisKamars", jenisKamarDao.findAll());
+        model.addAttribute("jenisKamars", jenisKamarDao.getAllJenisKamarActived());
         return model;
     }
     private String generateKodeKamar(int temp, int x, int y){

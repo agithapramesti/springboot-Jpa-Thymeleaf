@@ -21,10 +21,6 @@ public class SeasonService {
     CabangDao cabangDao;
 
     public Model getAllSeasonFromDB(Model model){
-        int lantai=2, nokamar=1;
-        String kodenya="ED";
-        String hasil = lantai+""+nokamar+kodenya;
-        System.out.println("test gabungin!"+hasil);
         model.addAttribute("season",seasonDao.findAll());
         return model;
     }

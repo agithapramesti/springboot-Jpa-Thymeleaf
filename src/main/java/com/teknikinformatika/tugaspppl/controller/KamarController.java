@@ -24,9 +24,19 @@ public class KamarController {
     }
     @RequestMapping(value = {"/dataKamar/tambahKamar"},method = RequestMethod.GET)
     public String manageTambahKamar(Model model) {
-        System.out.println("masuk controller2");
+
         model= kamarService.manageTambahKamar(model);
         return "/admin/tambahKamar";
+    }
+    @RequestMapping(value = {"/dataKamar/kamarTersedia"},method = RequestMethod.GET)
+    public String kamarTersedia(Model model){
+        model = kamarService.getAllKamarsTersedia(model);
+        return "/admin/dataKamarTersedia";
+    }
+    @RequestMapping(value = {"/dataKamar/kamarTidakTersedia"},method = RequestMethod.GET)
+    public String kamarTidakTersedia(Model model){
+        model = kamarService.getAllKamarsTidakTersedia(model);
+        return "/admin/dataKamarTidakTersedia";
     }
     @RequestMapping(value = {"/dataKamar"},method = RequestMethod.POST)
     public String simpanKamar(@ModelAttribute("kamar")Kamar kamar, Model model) {

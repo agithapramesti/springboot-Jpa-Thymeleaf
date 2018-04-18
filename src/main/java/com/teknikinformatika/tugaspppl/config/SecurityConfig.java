@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/css/**","/customerPage","/js/**","/fonts/**","/images/**","/daftar").permitAll() // Enable css when logged out
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","home","/data/**","season","/tambah/**").access("hasAnyAuthority('PM')")
+                .antMatchers("/","home","/data/**","season","/tambah/**","/edit/**").access("hasAnyAuthority('PM')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

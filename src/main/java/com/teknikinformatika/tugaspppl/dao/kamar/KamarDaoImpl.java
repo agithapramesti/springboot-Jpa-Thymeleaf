@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 public class KamarDaoImpl extends My_Connection implements KamarDaoCustom  {
     @Autowired
@@ -44,5 +45,19 @@ public class KamarDaoImpl extends My_Connection implements KamarDaoCustom  {
             System.out.println("Error while get nextval.."+e.toString());
         }
         return idTemp;
+    }
+    @Override
+    public List<Kamar> getAllKamarsTersedia(){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        List<Kamar> result = em.createNativeQuery(
+                "SELECT * FROM kamar where kamar.kamar_id not IN (SELECT detail_reservasi.kamar_id from detail_reservasi)",Kamar.class).getResultList();
+        return result;
+    }
+    @Override
+    public List<Kamar> getAllKamarsTidakTersedia(){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        List<Kamar> result = em.createNativeQuery(
+                "SELECT * FROM kamar where kamar.kamar_id IN (SELECT detail_reservasi.kamar_id from detail_reservasi)",Kamar.class).getResultList();
+        return result;
     }
 }

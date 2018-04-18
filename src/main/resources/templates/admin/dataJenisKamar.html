@@ -75,52 +75,49 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col col-xs-6">
-                        <h3 class="panel-title">Pelanggan Personal</h3>
+                        <h3 class="panel-title">Jenis Kamar</h3>
                     </div>
-                    <div class="col col-xs-6 text-right">
-                        <div class="pull-right">
-                        <a href="/dataPelanggan/tambahPelanggan"  style="float:left;" class="btn btn-default text-center btn-primary ">
-                            <i class="glyphicon glyphicon-plus fa fa-plus fa-1"></i>&nbsp;Tambah
-                        </a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <div  class="panel-body">
-                <table class="datatable table-responsive text-center table table-hover table-bordered" th:if="${not #lists.isEmpty(users)}" id="showTable" cellspacing="0" width="100%">
+                <table class="datatable table-responsive text-center table table-hover table-bordered" th:if="${not #lists.isEmpty(jenisKamar)}" id="showTable" cellspacing="0" width="100%">
                     <thead class="text-primary text-center">
                     <th class="col-tools"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                     </th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Nomor Identitas</th>
-                    <th>Nomor Telpon</th>
-                    <th>Status</th>
+
+                    <th>Nama Jenis Kamar</th>
+                    <th>Kapasitas</th>
+                    <th>Harga (Rp.)</th>
+                    <th>Status Jenis Kamar</th>
+                    <th>Gambar Kamar</th>
+
 
                     </thead>
                     <tbody>
-                    <tr th:each="users: ${users}">
+                    <tr th:each="jenisKamar: ${jenisKamar}">
                         <td class="text-center">
-                            <a class="btn btn-info btn-xs" th:href="${'/dataPelanggan/editPelanggan/'+users.userId}" >
-                    <span class="glyphicon glyphicon-edit">
+                            <a class="btn btn-info btn-xs" th:href="${'/dataJenisKamar/editJenisKamar/'+jenisKamar.jenisKamarId}" >
+                            <span class="glyphicon glyphicon-edit">
 
-                    </span>
+                            </span>
                             </a>
-                            <a class="btn btn-danger btn-xs" th:href="${'/dataPelanggan/softdelete/'+users.userId}"  >
-                    <span class="glyphicon glyphicon-remove">
+                            <a class="btn btn-info btn-xs" th:href="${'/dataJenisKamar/softDeleteJ/'+jenisKamar.jenisKamarId}">
+                            <span class="glyphicon glyphicon-remove">
 
-                    </span>
+                            </span>
                             </a>
 
                         </td>
-                        <td th:text="${users.nama}"></td>
-                        <td th:text="${users.username}"></td>
-                        <td th:text="${users.noIdentitas}"></td>
-                        <td th:text="${users.noTelp}"></td>
-                        <td th:if="${users.statusUser== 1}" th:text="Aktif"></td>
-                        <td th:if="${users.statusUser== 0}" th:text="Tidak-Aktif"></td>
-
+                        <td th:text="${jenisKamar.namaJenisKamar}"></td>
+                        <td th:text="${jenisKamar.kapasitas}"></td>
+                        <td th:text="${jenisKamar.hargaJenisKamar}"></td>
+                        <td th:if="${jenisKamar.statusJenis==1}" th:text="Aktif"></td>
+                        <td th:if="${jenisKamar.statusJenis==0}" th:text="Tidak-Aktif"></td>
+                        <td th:text="${jenisKamar.gambarKamar}"></td>
                     </tr>
+
+
                     </tbody>
                 </table>
             </div>
