@@ -28,7 +28,7 @@ public class JenisController {
         model = jenisKamarService.manageEditJenisKamar(model, id);
         return "/admin/editJenisKamar";
     }
-    @RequestMapping(value = "/dataJenisKamar/softDeleteJ/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/dataJenisKamar/softDelete/{id}", method = RequestMethod.GET)
     public String softdeleteJenisK(@PathVariable int id){
         return jenisKamarService.softDeleteJenisKamar(id);
     }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+
+
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+
+    <link th:href="@{/css/exceptionCss.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Grand Atma Hotels</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">Reservasi</a></li>
+                <li><a href="/season">Promo</a></li>
+
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/dataPelanggan">Data Pelanggan</a></li>
+                        <li><a href="/dataPegawai">Data Pegawai</a></li>
+                        <li><a href="/dataKamar">Data Kamar</a></li>
+                        <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
+                        <li><a href="#">Laporan Pelanggan Baru</a></li>
+                        <li><a href="#">Laporan Pendapatan Bulanan</a></li>
+                        <li><a href="#">Laporan Jumlah Tamu</a></li>
+                        <li><a href="#">Laporan 5 Pelanggan Reservasi Terbanyak</a></li>
+                        <li><a href="#">Laporan Pendapatan Tahunan</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <form th:action="@{/logout}" method="post">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <input type="submit" value="Keluar" class="btn btn-danger"/>
+                </form>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="w">
+    <div id="content">
+        <!-- Icons source http://dribbble.com/shots/913555-Flat-Web-Elements -->
+
+        <div class="notify errorbox text-center" >
+            <h1>Warning!</h1>
+            <span class="alerticon"></span>
+            <p>Username atau Nomor Identitas Sudah Digunakan!</p>
+        </div>
+
+
+    </div><!-- @end #content -->
+</div><!-
+</body>
+</html>

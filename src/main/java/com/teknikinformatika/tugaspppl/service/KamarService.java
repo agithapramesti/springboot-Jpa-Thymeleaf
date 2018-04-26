@@ -25,6 +25,7 @@ public class KamarService {
     private JenisKamarDao jenisKamarDao;
     @Autowired
     private CabangDao cabangDao;
+
     public Model getAllKamars(Model model){
 
         model.addAttribute("kamar",kamarDao.findAll());
@@ -76,6 +77,7 @@ public class KamarService {
 
     public String saveKamar(Kamar kamar,Model model){
 
+
         String temp= "";
         if(kamar.getKamarId()==0) {
             kamar.setStatusKamar(1);
@@ -89,13 +91,19 @@ public class KamarService {
         }
         temp = generateKodeKamar(kamar.getJenisKamar().getJenisKamarId(), kamar.getLantai(), kamar.getNomorKamar());
         kamar.setKodeKamar(temp);
+
+        model.addAttribute("msg",
+                "a spring-boot example");
+
         kamarDao.save(kamar);
+
         return "redirect:/dataKamar";
     }
 
     public Model tambahCabangKamar(Model model, int id){
         model.addAttribute("kamar",kamarDao.getOne(id));
         model.addAttribute("cabang", cabangDao.getAllCabangNotIncludedByKamarId(id));
+
         return model;
     }
     public String simpanCabangKamar(int kamarId, int cabangId, Model model){
@@ -118,8 +126,8 @@ public class KamarService {
         return "redirect:/dataKamar";
 
     }
-    public Kamar softDeleteKamar(int id){
-        return kamarDao.softDelete(id);
+    public void softDeleteKamar(int id){
+        kamarDao.softDelete(id);
     }
 
 }

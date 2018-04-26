@@ -21,23 +21,40 @@ public class UserService {
     private RoleDao roleDao;
 
     public String save(Model model,User user){
-        if(user.getRole().getRoleId()==0){
+        if(userDao.countUserByNoIdentitas(user.getNoIdentitas())== 0){
+            if(user.getRole().getRoleId()==0){
 
-            user.getRole().setRoleId(8);
-            user.setUsername(null);
-            user.setStatusUser(1);
-            user.setKataSandi("-");
+                user.getRole().setRoleId(8);
+                user.setUsername(null);
+                user.setStatusUser(1);
+                user.setKataSandi("-");
+            }
+            userDao.save(user);
+            return "redirect:/customerPage";
         }
-        userDao.save(user);
-        return "redirect:/customerPage";
+        else {
+            System.out.println("#ERROR PADA INPUTAN USER ATAU NO IDENTITAS");
+            return "redirect:/exceptionHandling";
+
+        }
+
     }
     public String saveUserRegistered(Model model,User user){
-        if(user.getRole().getRoleId()==0){
-            user.getRole().setRoleId(7);
-            user.setStatusUser(1);
+
+        if(userDao.countUserByUsername(user.getUsername()) ==0 && userDao.countUserByNoIdentitas(user.getNoIdentitas()) == 0) {
+            if(user.getRole().getRoleId()==0){
+                user.getRole().setRoleId(7);
+                user.setStatusUser(1);
+            }
+            userDao.save(user);
+            return "redirect:/customerPage";
         }
-        userDao.save(user);
-        return "redirect:/customerPage";
+        else
+        {
+            System.out.println("#ERROR PADA INPUTAN USER ATAU NO IDENTITAS");
+            return "redirect:/exceptionHandling";
+        }
+
     }
     public Model getAllUsers(Model model){
 
@@ -55,16 +72,29 @@ public class UserService {
     public String saveUser(Model model, User user){
 
         if(user.getUserId()==0){
-            user.getRole().setRoleId(7);
-            user.setStatusUser(1);
+            if(userDao.countUserByUsername(user.getUsername()) == 0 && userDao.countUserByNoIdentitas(user.getNoIdentitas()) == 0){
+                user.getRole().setRoleId(7);
+                user.setStatusUser(1);
+                userDao.save(user);
+                return "redirect:/dataPelanggan";
+            }
+            else {
+                return "redirect:/exceptionHandling";
+            }
         }
         else{
-            int id =  user.getUserId();
-            int statusUser = userDao.getStatusUserById(id);
-            user.setStatusUser(statusUser);
+            if(userDao.countUserByUsername(user.getUsername()) == 0){
+                int id =  user.getUserId();
+                int statusUser = userDao.getStatusUserById(id);
+                user.setStatusUser(statusUser);
+                userDao.save(user);
+                return "redirect:/dataPelanggan";
+            }
+            else {
+                return "redirect:/exceptionHandling";
+            }
         }
-        userDao.save(user);
-        return "redirect:/dataPelanggan";
+
     }
     public Model manageTambahUser(Model model){
         model.addAttribute("users",new User());
@@ -95,18 +125,33 @@ public class UserService {
         return model;
     }
     public String savePegawai(Model model, User user){
+
         if(user.getUserId()==0){
-            user.setNamaPemegangKartu("-");
-            user.setNoKartu("-");
-            user.setStatusUser(1);
+            if(userDao.countUserByUsername(user.getUsername()) == 0 && userDao.countUserByNoIdentitas(user.getNoIdentitas()) == 0){
+                user.setNamaPemegangKartu("-");
+                user.setNoKartu("-");
+                user.setStatusUser(1);
+                userDao.save(user);
+                return "redirect:/dataPegawai";
+            }
+            else {
+                return "redirect:/exceptionHandling";
+            }
         }
-        else {
-            int id =  user.getUserId();
-            int statusUser = userDao.getStatusUserById(id);
-            user.setStatusUser(statusUser);
+        else{
+            if(userDao.countUserByUsername(user.getUsername()) == 0){
+                int id = user.getUserId();
+                int statusUser = userDao.getStatusUserById(id);
+                user.setStatusUser(statusUser);
+                userDao.save(user);
+                return "redirect:/dataPegawai";
+            }
+            else {
+                return "redirect:/exceptionHandling";
+            }
         }
-        userDao.save(user);
-        return "redirect:/dataPegawai";
+
+
     }
     public Model manageEditPegawai(Model model, int id){
         model.addAttribute("users",userDao.findById(id));

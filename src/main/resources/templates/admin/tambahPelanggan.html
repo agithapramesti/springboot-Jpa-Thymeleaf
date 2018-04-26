@@ -104,7 +104,7 @@
                         <div class="form-group">
                             <label for="alamat" class="col-sm-3 control-label">Alamat</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{alamat}"  type="text" class="form-control" id="alamat" name="alamat" required>
+                                <input  th:field="*{alamat}" maxlength="255" type="text" class="form-control" id="alamat" name="alamat" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -121,13 +121,13 @@
                         <div class="form-group">
                             <label for="namaPemegangKartu" class="col-sm-3 control-label">Nama Pemegang Kartu</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{namaPemegangKartu}"  type="text" class="form-control" id="namaPemegangKartu" name="namaPemegangKartu" required>
+                                <input  th:field="*{namaPemegangKartu}" maxlength="255" type="text" class="form-control" id="namaPemegangKartu" name="namaPemegangKartu" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="noKartu" class="col-sm-3 control-label">Nomor Kartu</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{noKartu}"  type="text" class="form-control" id="noKartu" name="noKartu" required>
+                                <input  th:field="*{noKartu}" maxlength="255"  type="text" class="form-control" id="noKartu" name="noKartu" required>
                             </div>
                         </div>
                         <div class="form-group">

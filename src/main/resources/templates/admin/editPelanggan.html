@@ -78,18 +78,14 @@
                         <input type="hidden" th:field="*{statusUser}"/>
                         <input type="hidden" th:field="*{role.roleId}"/>
                         <input type="hidden" th:field="*{kataSandi}"/>
+                        <input type="hidden" th:field="*{noIdentitas}"/>
                         <div class="form-group">
                             <label for="nama" class="col-sm-3 control-label">Nama Pelanggan</label>
                             <div class="col-sm-9">
                                 <input  th:field="*{nama}"  maxlength="25"  type="text" class="form-control" id="nama" name="nama" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="noIdentitas" class="col-sm-3 control-label">Nomor Identitas</label>
-                            <div class="col-sm-9">
-                                <input  th:field="*{noIdentitas}"  maxlength="16" type="text" class="form-control" id="noIdentitas" name="noIdentitas" required>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label for="noTelp" class="col-sm-3 control-label">Nomor Telpon</label>
                             <div class="col-sm-9">
@@ -105,7 +101,7 @@
                         <div class="form-group">
                             <label for="alamat" class="col-sm-3 control-label">Alamat</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{alamat}"  type="text" class="form-control" id="alamat" name="alamat" required>
+                                <input  th:field="*{alamat}" maxlength="255" type="text" class="form-control" id="alamat" name="alamat" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -122,13 +118,13 @@
                         <div class="form-group">
                             <label for="namaPemegangKartu" class="col-sm-3 control-label">Nama Pemegang Kartu</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{namaPemegangKartu}"  type="text" class="form-control" id="namaPemegangKartu" name="namaPemegangKartu" required>
+                                <input  th:field="*{namaPemegangKartu}" maxlength="255" type="text" class="form-control" id="namaPemegangKartu" name="namaPemegangKartu" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="noKartu" class="col-sm-3 control-label">Nomor Kartu</label>
                             <div class="col-sm-9">
-                                <input  th:field="*{noKartu}"  type="text" class="form-control" id="noKartu" name="noKartu" required>
+                                <input  th:field="*{noKartu}" maxlength="255"  type="text" class="form-control" id="noKartu" name="noKartu" required>
                             </div>
                         </div>
                         <div class="form-group">

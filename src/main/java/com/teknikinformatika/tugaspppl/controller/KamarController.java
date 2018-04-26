@@ -17,6 +17,11 @@ public class KamarController {
     private KamarService kamarService;
     @Autowired
     private CabangService cabangService;
+    @RequestMapping(value = "/exceptionHandlingKamar")
+    public String exceptionHandling() {
+
+        return "/admin/exceptionHandlingKamar";
+    }
     @RequestMapping(value = {"/dataKamar"},method = RequestMethod.GET)
     public String dataKamar(Model model) {
         model= kamarService.getAllKamars(model);
@@ -57,13 +62,15 @@ public class KamarController {
     }
 
     @RequestMapping(value="/datakamar/{id}/cabang", method=RequestMethod.GET)
-    public String simpanKamarCabang(@PathVariable int id, @RequestParam int cabangId, Model model) {
-        System.out.println("hey gendut");
+    public String simpanKamarCabang(@PathVariable int id, @RequestParam Integer cabangId, Model model) {
+        System.out.println("mboh");
+        System.out.println("cek1 adalah:"+cabangId+"wow");
+
         return kamarService.simpanCabangKamar(id, cabangId, model);
     }
     @RequestMapping(value = "tambahCabangKamar/{id}", method = RequestMethod.GET)
     public String tambahCabang(@PathVariable("id") int id, Model model){
-
+        System.out.println("cek2");
         model = kamarService.tambahCabangKamar(model, id);
         return "/admin/tambahCabangKamar";
     }

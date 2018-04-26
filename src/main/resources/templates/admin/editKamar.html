@@ -116,7 +116,15 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Status Rokok</label>
                             <div class="col-sm-9">
-                                <input name="fname"  th:field="*{statusRokok}" type="text" class="form-control"  placeholder="Merokok/Tidak Merokok" required>
+                                <select th:field="*{statusRokok}"  class="form-control" >
+                                    <option value="Merokok">
+                                        Merokok
+                                    </option>
+                                    <option value="Tidak Merokok">
+                                        Tidak Merokok
+                                    </option>
+                                </select>
+                                <!--<input name="fname"  th:field="*{statusRokok}" type="text" class="form-control"  placeholder="Merokok/Tidak Merokok" required>-->
                             </div>
 
                         </div>

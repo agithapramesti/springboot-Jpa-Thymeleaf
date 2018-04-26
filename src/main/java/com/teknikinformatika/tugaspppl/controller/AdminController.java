@@ -29,6 +29,11 @@ public class AdminController {
 
         return "login";
     }
+    @RequestMapping(value = "/exceptionHandling")
+    public String exceptionHandling() {
+
+        return "/admin/exceptionHandling";
+    }
     @RequestMapping(value = {"/dataPelanggan"},method = RequestMethod.GET)
     public String dataPelanggan(Model model) {
         model=userService.getAllUsers(model);

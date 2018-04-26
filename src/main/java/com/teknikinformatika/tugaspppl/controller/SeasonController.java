@@ -35,8 +35,8 @@ public class SeasonController {
     }
     @RequestMapping(value = "season/softdelete/{id}",method = RequestMethod.GET)
     public String softDeleteSeason(@PathVariable int id){
-        seasonService.softDelete(id);
-        return "redirect:/season";
+        return seasonService.softDelete(id);
+
     }
     @RequestMapping(value = "season/cari",method = RequestMethod.GET)
     public String cariBerdasarkanNamaSeason(Model model, @ModelAttribute("namaSeason") String namaSeason){

@@ -51,8 +51,10 @@ public class SeasonService {
         model.addAttribute("cabang", cabangDao.getAllCabang());
         return model;
     }
-    public void softDelete(int id){
+    public String softDelete(int id){
+
         seasonDao.softDelete(id);
+        return "redirect:/season";
     }
     public Model searchSeasonByNamaSeason(Model model, String namaSeason){
 

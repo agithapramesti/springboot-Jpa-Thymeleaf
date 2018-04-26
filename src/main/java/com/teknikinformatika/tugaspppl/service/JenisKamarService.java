@@ -28,6 +28,7 @@ public class JenisKamarService {
         return "redirect:/dataJenisKamar";
     }
     public String softDeleteJenisKamar(int id){
+
         jenisKamarDao.softDelete(id);
         return "redirect:/dataJenisKamar";
     }

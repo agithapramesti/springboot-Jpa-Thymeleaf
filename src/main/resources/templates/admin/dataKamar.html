@@ -143,7 +143,12 @@
                             </span>
                             </td>
                             <td>
-                                <a th:href="${'/tambahCabangKamar/'+kamar.kamarId}" class="btn btn-success btn-xs">Tambah Cabang</a>
+                                <span th:if="${kamar.cabangs.size()<2}">
+                                    <a th:href="${'/tambahCabangKamar/'+kamar.kamarId}" class="btn btn-success btn-xs">Tambah Cabang</a>
+                                </span>
+                                <span th:if="${kamar.cabangs.size()>=2}">
+                                    -
+                                </span>
                             </td>
                         </tr>
 
@@ -167,6 +172,7 @@
     $(document).ready(function() {
         $('.datatable').DataTable();
     });
+
 </script>
 
 </body>
