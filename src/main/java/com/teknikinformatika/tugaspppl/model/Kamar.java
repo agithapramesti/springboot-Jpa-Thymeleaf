@@ -51,7 +51,12 @@ public class Kamar {
     @JoinColumn(name = "jenis_kamar_id",insertable=true, updatable=true)
     private JenisKamar jenisKamar;
     @OneToMany(mappedBy = "kamar")
-    private List<DetailReservasi> detailReservasis=new ArrayList<>();
+    private List<DetailReservasi> detailReservasi=new ArrayList<>();
+
+
+//    @ManyToOne
+//    @JoinColumn(name = "reservasi_id",insertable=true, updatable=true)
+//    private Reservasi reservasi; // ini jadi status kamar say?
 
     public boolean hasCabang(Cabang cabang) {
         for (Cabang kamarCabang: cabangs) {

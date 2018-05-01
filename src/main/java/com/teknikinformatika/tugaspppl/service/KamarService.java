@@ -41,6 +41,7 @@ public class KamarService {
     }
     public Model manageTambahKamar(Model model){
         model.addAttribute("kamar",new Kamar());
+
         model.addAttribute("tipe",tipeKasurDao.findAll());
         model.addAttribute("cabang",cabangDao.getAllCabang());
         model.addAttribute("jenisKamars", jenisKamarDao.getAllJenisKamarActived());
@@ -80,8 +81,8 @@ public class KamarService {
 
         String temp= "";
         if(kamar.getKamarId()==0) {
+            //kamar.getReservasi().setReservasId(0);
             kamar.setStatusKamar(1);
-
         }
         else
         {

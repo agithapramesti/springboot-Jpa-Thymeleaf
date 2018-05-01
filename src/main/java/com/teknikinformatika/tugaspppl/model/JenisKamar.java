@@ -37,4 +37,6 @@ public class JenisKamar {
     private List<Fasilitas> fasilitas= new ArrayList<>();
     @OneToMany(mappedBy = "jenisKamar")
     private List<Kamar> kamars=new ArrayList<>();
+    @OneToMany(mappedBy = "jenisKamarr")
+    private List<DetailReservasi> detailReservasis=new ArrayList<>();
 }

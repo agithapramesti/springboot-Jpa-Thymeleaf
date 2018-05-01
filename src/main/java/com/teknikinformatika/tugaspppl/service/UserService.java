@@ -83,16 +83,27 @@ public class UserService {
             }
         }
         else{
-            if(userDao.countUserByUsername(user.getUsername()) == 0){
-                int id =  user.getUserId();
-                int statusUser = userDao.getStatusUserById(id);
-                user.setStatusUser(statusUser);
+            String oldUsername = userDao.getUsernameUserById(user.getUserId());
+            int id =  user.getUserId();
+            int statusUser = userDao.getStatusUserById(id);
+            user.setStatusUser(statusUser);
+            if(oldUsername.equalsIgnoreCase(user.getUsername()))
+            {
+
                 userDao.save(user);
                 return "redirect:/dataPelanggan";
             }
-            else {
-                return "redirect:/exceptionHandling";
+            else
+            {
+                if(userDao.countUserByUsername(user.getUsername()) == 0){
+                    userDao.save(user);
+                    return "redirect:/dataPelanggan";
+                }
+                else {
+                    return "redirect:/exceptionHandling";
+                }
             }
+
         }
 
     }
@@ -139,16 +150,26 @@ public class UserService {
             }
         }
         else{
-            if(userDao.countUserByUsername(user.getUsername()) == 0){
-                int id = user.getUserId();
-                int statusUser = userDao.getStatusUserById(id);
-                user.setStatusUser(statusUser);
+            String oldUsername = userDao.getUsernameUserById(user.getUserId());
+            int id =  user.getUserId();
+            int statusUser = userDao.getStatusUserById(id);
+            user.setStatusUser(statusUser);
+            if(oldUsername.equalsIgnoreCase(user.getUsername()))
+            {
                 userDao.save(user);
                 return "redirect:/dataPegawai";
             }
-            else {
-                return "redirect:/exceptionHandling";
+            else
+            {
+                if(userDao.countUserByUsername(user.getUsername()) == 0){
+                    userDao.save(user);
+                    return "redirect:/dataPegawai";
+                }
+                else {
+                    return "redirect:/exceptionHandling";
+                }
             }
+
         }
 
 

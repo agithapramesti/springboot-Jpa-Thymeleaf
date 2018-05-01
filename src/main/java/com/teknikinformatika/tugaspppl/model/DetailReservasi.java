@@ -20,30 +20,36 @@ public class DetailReservasi {
     @Id
     @Column(name = "detail_id")
     private int detailId;
-    @Column(name = "reservasi_id", nullable = false)
-    private int reservasId;
-    @Column(name = "jumlah_orang", nullable = false)
-    private  int jumlahOrang;
-    @Column(name = "jumlah_kamar", nullable = false)
-    private int jumlahKamar;
-    @Column(name = "jumlah_anak", nullable = false)
-    private int jumlahAnak;
-    @Column(name = "jumlah_dewasa", nullable = false)
-    private int jumlahDewasa;
+
+
+//    @Column(name = "jumlah_orang", nullable = false)
+//    private  int jumlahOrang;
+//    @Column(name = "jumlah_kamar", nullable = false)
+//    private int jumlahKamar;
+//    @Column(name = "jumlah_anak", nullable = false)
+//    private int jumlahAnak;
+//    @Column(name = "jumlah_dewasa", nullable = false)
+//    private int jumlahDewasa;
+//    @Column(name = "status_reservasi", nullable = false)
+//    @Size(max = 255)
+//    private String statusReservasi;
+
     @Column(name = "tanggal_check_in", nullable = false)
     private Date tanggalCheckIn;
     @Column(name = "tanggal_check_out", nullable = false)
     private Date tanggalCheckOut;
     @Column(name = "subTotal_detail", nullable = false)
     private double subtotalDetail;
-    @Column(name = "status_reservasi", nullable = false)
-    @Size(max = 255)
-    private String statusReservasi;
+
+
+
     @ManyToOne
-    @JoinColumn(name = "kamar_id",insertable=false, updatable=false)
-    private Kamar kamar;
+    @JoinColumn(name = "jenis_kamar_id",insertable=false, updatable=false)
+    private JenisKamar jenisKamarr;
     @ManyToOne
     @JoinColumn(name = "reservasi_id",insertable=false, updatable=false)
     private Reservasi reservasi;
-
+    @ManyToOne
+    @JoinColumn(name = "kamar_id",insertable=false, updatable=false)
+    private Kamar kamar;
 }

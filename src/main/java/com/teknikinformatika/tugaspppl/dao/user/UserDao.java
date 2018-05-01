@@ -28,4 +28,9 @@ public interface UserDao extends JpaRepository<User,Integer>{
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE user set user.status_user = case when user.status_user=1 then 0 when user.status_user=0 then 1 end where user.user_id= :id ",nativeQuery = true)
     void softDeleteUser(@Param("id") int id);
+    @Query(value = "SELECT user.username FROM user WHERE user.user_id= :id ", nativeQuery = true)
+    String getUsernameUserById(@Param("id") Integer id);
+    @Query(value = "SELECT user.user_id FROM user WHERE user.username= :username ", nativeQuery = true)
+    int getIdByUsername(@Param("username") String username);
+
 }

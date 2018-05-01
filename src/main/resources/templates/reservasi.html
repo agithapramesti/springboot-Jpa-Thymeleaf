@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+
+
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+
+    <link th:href="@{/css/customerPage.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Grand Atma Hotels</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">Reservasi</a></li>
+                <li><a href="/season">Promo</a></li>
+
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/cobaReservasi">Coba Reservasi</a></li>
+                        <li><a href="/dataPelanggan">Data Pelanggan</a></li>
+                        <li><a href="/dataPegawai">Data Pegawai</a></li>
+                        <li><a href="/dataKamar">Data Kamar</a></li>
+                        <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
+                        <li><a href="#">Laporan Pelanggan Baru</a></li>
+                        <li><a href="#">Laporan Pendapatan Bulanan</a></li>
+                        <li><a href="#">Laporan Jumlah Tamu</a></li>
+                        <li><a href="#">Laporan 5 Pelanggan Reservasi Terbanyak</a></li>
+                        <li><a href="#">Laporan Pendapatan Tahunan</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <form th:action="@{/logout}" method="post">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <input type="submit" value="Keluar" class="btn btn-danger"/>
+                </form>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="col-xs-12 col-sm-5 col-md-7">
+        <div class="row-fluid">
+            <div class="row">
+                <form class="form-horizontal"  th:object="${search}"   th:action="@{/reservasi/search}" method="post">
+                        <div class="row">
+                            <div style="float:left;" class='input-group date col-xs-5 col-sm-5 col-md-5' id='datetimepicker1'>
+                                <span style="float:left">&nbsp;</span>
+
+                                <span>
+                                    <input th:field="*{tanggalCheckIn}" type='text' class="form-control" placeholder="Check In" required>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </span>
+
+                            </div>
+
+                            <div class='input-group date col-xs-5 col-sm-5 col-md-5' id='datetimepicker2'>
+                                <span>&nbsp;</span>
+                                <div>
+                                    <input th:field="*{tanggalCheckOut}" type='text' class="form-control" placeholder="Check Out" required>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!--
+                        <div style="float:left" class="form-group col-sm-3">
+
+                                <b>Jumlah Anak</b>
+                                <select  th:value="${jumlahAnak}" class="form-control">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                </select>
+
+
+                        </div>
+                        -->
+                        <div style="float:left" class="form-group col-sm-3">
+                            <b>Jumlah Anak</b>
+                            <input type="number" min="0" max="20" class="form-control" maxlength="2" name="jumlahAnak"  th:field="*{jumlahAnak}"
+                                   placeholder="Jumlah Anak"/>
+                            <span>&nbsp;</span>
+                        </div>
+
+                        <div style="float:left" class="form-group col-sm-3">
+
+                            <span>&nbsp;</span>
+                            <b>Jumlah Dewasa</b>
+                            <input type="number" class="form-control" min="0" max="20" maxlength="2" name="jumlahDewasa"  th:field="*{jumlahDewasa}"
+                                   placeholder="Jumlah Dewasa"/>
+                        </div>
+
+                            <div style="float:left" class="col-sm-3">
+                                <b>Kota Cabang</b>
+                                <select class="form-control"  th:field="*{cabangId}">
+                                    <option th:each="cabang: ${cabang}"
+                                            th:value="${cabang.cabangId}"
+                                            th:text="${cabang.namaCabang}">
+                                    </option>
+                                </select>
+                            </div>
+
+                        <div class="form-group col-sm-2">
+                            <span>&nbsp;</span>
+                            <span class="input-group-btn">
+                            <button class="btn btn-default btn-search" type="submit" name="button">Search</button>
+                            </span>
+                        </div>
+
+                </form>
+                <!-- panel preview -->
+
+            </div>
+        </div>
+
+        <div class="row-fluid " th:if="${not #lists.isEmpty(kamar)}">
+            <div class="panel panel-default">
+                <div class="panel-body table-responsive">
+                    <table class="table" >
+                        <thead>
+                        <tr>
+                            <th>Kode Kamar</th>
+                            <th>Status Kamar</th>
+                            <th>Jenis Kamar</th>
+                            <th>Harga</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <div th:if="${not #lists.isEmpty(kamar)}">
+                            <table class="table tab le-striped">
+                                <tbody>
+                                    <tr th:each="kamar: ${kamar}">
+                                        <td th:text="${kamar.kodeKamar}"></td>
+                                        <td th:text="${kamar.statusRokok}"></td>
+                                        <td  th:if="${kamar.jenisKamar.jenisKamarId== 1}" th:text="Superior"></td>
+                                        <td  th:if="${kamar.jenisKamar.jenisKamarId== 2}" th:text="Double-Deluxe"></td>
+                                        <td  th:if="${kamar.jenisKamar.jenisKamarId== 3}" th:text="Executive-Deluxe"></td>
+                                        <td  th:if="${kamar.jenisKamar.jenisKamarId== 4}" th:text="Junior-Suite"></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker2').datetimepicker();
+    });
+    function myFunction() {
+        alert("Proses Berhasil!");
+    }
+
+</script>
+</body>
+</html>

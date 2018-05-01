@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +20,8 @@ import java.util.List;
 public class Reservasi {
     @Id
     @Column(name = "reservasi_id")
-    private String reservasId;
-
+    private int reservasId;
+    private String kodeBooking;
     @Column(name = "tanggal_reservasi",insertable=true, updatable=true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date tanggalReservasi;
@@ -38,6 +39,19 @@ public class Reservasi {
     private double sisaDeposit;
     @Column(name = "sisa_pembayaran", nullable = false)
     private double sisaPembayaran;
+
+    @Column(name = "jumlah_orang", nullable = false)
+    private  int jumlahOrang;
+    @Column(name = "jumlah_kamar", nullable = false)
+    private int jumlahKamar;
+    @Column(name = "jumlah_anak", nullable = false)
+    private int jumlahAnak;
+    @Column(name = "jumlah_dewasa", nullable = false)
+    private int jumlahDewasa;
+    @Column(name = "status_reservasi", nullable = false)
+    @Size(max = 255)
+    private String statusReservasi;
+
     @ManyToOne
     @JoinColumn(name = "cabang_id",insertable=false, updatable=false)
     private Cabang cabang_res;
@@ -48,4 +62,7 @@ public class Reservasi {
     private User users;
     @OneToMany(mappedBy = "reservasis")
     private List<PermintaanKhusus> permintaanKhususes=new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "reservasi")
+//    private List<Kamar> kamars=new ArrayList<>();
 }
