@@ -1,23 +1,36 @@
 package com.teknikinformatika.tugaspppl.service;
 
 import com.teknikinformatika.tugaspppl.dao.cabang.CabangDao;
+import com.teknikinformatika.tugaspppl.dao.detail_reservasi.DetailReservasiDao;
+import com.teknikinformatika.tugaspppl.dao.fasilitas_berbayar_id.FasilitasBerbayarDao;
 import com.teknikinformatika.tugaspppl.dao.jenis_kamar.JenisKamarDao;
+import com.teknikinformatika.tugaspppl.dao.jenis_kamar.JenisKDao;
+import com.teknikinformatika.tugaspppl.dao.jenis_kamar.JenisKamarTempDao;
 import com.teknikinformatika.tugaspppl.dao.kamar.KamarDao;
+import com.teknikinformatika.tugaspppl.dao.permintaan_khusus.PermintaanKhususDao;
+import com.teknikinformatika.tugaspppl.dao.reservasi.ReservasiDao;
 import com.teknikinformatika.tugaspppl.dao.reservasi.ReservasiTempDao;
 import com.teknikinformatika.tugaspppl.dao.season.SeasonDao;
 import com.teknikinformatika.tugaspppl.dao.user.UserDao;
 import com.teknikinformatika.tugaspppl.model.*;
+import jdk.nashorn.internal.objects.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.security.core.Authentication;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
 public class ReservasiService {
+    @Autowired
+    private JenisKDao jenisKDao;
     @Autowired
     private CabangDao cabangDao;
     @Autowired
@@ -29,8 +42,20 @@ public class ReservasiService {
     @Autowired
     private JenisKamarDao jenisKamarDao;
     @Autowired
-    private ReservasiTempDao tempDao;
-    private ReservasiTemp reservasiTemp ;
+    private DetailReservasiDao detailReservasiDao;
+    @Autowired
+    private ReservasiDao reservasiDao;
+    @Autowired
+    private JenisKamarTempDao jenisKamarTempDao;
+    @Autowired
+    private FasilitasBerbayarDao fasilitasBerbayarDao;
+    @Autowired
+    private PermintaanKhususDao permintaanKhususDao;
+
+    private Reservasi reservasi;
+    private JenisKamarTemp jenisKamarTemp ;
+    private DetailReservasi detailReservasi;
+
     public Model manageFormCustomerPage(Model model){
         model.addAttribute("season",seasonDao.getAllSeasonYogyakarta());
         model.addAttribute("seasonB",seasonDao.getAllSeasonBandung());
@@ -42,9 +67,10 @@ public class ReservasiService {
     public Model manageFormCobaReservasi(Model model,Authentication authentication){
         int userId = 0;
         userId = userDao.getIdByUsername(authentication.getName());
-
         model.addAttribute("cabang",cabangDao.getAllCabang());
         model.addAttribute("search",new SearchModel());
+
+
         return model;
     }
     public String manageSearchKamarAvailable(Model model,SearchModel searchModel){
@@ -56,41 +82,164 @@ public class ReservasiService {
         return "redirect:/tambahKamarReservasi";
     }
     public Model getAllKamarTersediaReservasi(Model model){
-        model.addAttribute("kamar",kamarDao.getAllKamarTersediaReservasi(GlobalVariable.tanggalCheckIn,GlobalVariable.tanggalCheckOut,GlobalVariable.cabangId));
-        model.addAttribute("kamarTemp",tempDao.findAll());
+
+        model.addAttribute("kamar",jenisKDao.getAllKamarTersediaReservasi(GlobalVariable.tanggalCheckIn,GlobalVariable.tanggalCheckOut,GlobalVariable.cabangId));
+        model.addAttribute("kamarTemp",jenisKamarTempDao.findAll());
+        System.out.println(GlobalVariable.tanggalCheckIn);
+        System.out.println(GlobalVariable.tanggalCheckOut);
+        System.out.println(GlobalVariable.cabangId);
+        int jumlahOrang = GlobalVariable.jumlahAnak + GlobalVariable.jumlahDewasa;
+        int jumlahKamar;
+        if((jumlahOrang%2) == 0){
+            jumlahKamar=  (jumlahOrang/2);
+        }
+        else {
+            jumlahKamar = (jumlahOrang/2)+1;
+        }
+        model.addAttribute("jumlahKamar", jumlahKamar);
+        model.addAttribute("totalStok",jenisKamarTempDao.sumStokFromJenisKamarTemp());
         return model;
     }
-    public Model manageMoveToCart(int id, Model model){
-        reservasiTemp = new ReservasiTemp();
+    public Model manageMoveToCart(int id, Model model, int quantity){
+        JenisKamarTemp jenisKamarTemp =  new JenisKamarTemp();
+        jenisKamarTemp.setJenisKamarId(id);
+        jenisKamarTemp.setStok(quantity);
+        jenisKamarTemp.setNamaJenisKamar(jenisKamarDao.namaJenisKamarById(id));
+        double harga;
+        harga = jenisKamarDao.hargaJenisKamarById(id) * quantity;
+        jenisKamarTemp.setHargaKamar(harga);
+        jenisKamarTempDao.save(jenisKamarTemp);
+        return model;
+    }
+    public void hapusCartById(int id){
+        jenisKamarTempDao.deleteJenisKamarTempById(id);
+    }
+    public void hapusAllCart(){
+        jenisKamarTempDao.deleteAllJenisKamarTemp();
+    }
+    public Model manageReservasiAndDetails(Authentication authentication,Model model){
+        String namaKota;
+        if(GlobalVariable.cabangId ==1){
+            namaKota = "Yogyakarta";
+        }
+        else{
+            namaKota = "Bandung";
+        }
+        model.addAttribute("kotaCabang",namaKota);
+        model.addAttribute("tanggalCheckIn",new SimpleDateFormat("EEEE, dd MMMM yyyy").format(GlobalVariable.tanggalCheckIn));
+        model.addAttribute("tanggalCheckOut",new SimpleDateFormat("EEEE, dd MMMM yyyy").format(GlobalVariable.tanggalCheckOut));
+        long startTime = GlobalVariable.tanggalCheckIn.getTime();
+        long endTime = GlobalVariable.tanggalCheckOut.getTime();
+        long diffTime = endTime - startTime;
+        long diffDays = diffTime / (1000 * 60 * 60 * 24);
+        model.addAttribute("diffDays",diffDays);
+        int jumlahOrang = GlobalVariable.jumlahAnak + GlobalVariable.jumlahDewasa;
 
-        Kamar kamar = kamarDao.getOne(id);
+        model.addAttribute("jumlahTamu",jumlahOrang);
+        int jumlahKamar;
+        if((jumlahOrang%2) == 0){
+            jumlahKamar=  (jumlahOrang/2);
+        }
+        else {
+            jumlahKamar = (jumlahOrang/2)+1;
+        }
+        model.addAttribute("jumlahKamar", jumlahKamar);
 
 
-        reservasiTemp.setJumlahAnak(GlobalVariable.jumlahAnak);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        //--------> Insert Reservasi
+        reservasi = new Reservasi();
+        reservasi.setTanggalReservasi(timestamp);
+        reservasi.setJenisReservasi('P');
+        reservasi.setTotalTransaksi(reservasiDao.getTotalHargaKamarSebelum());
+        reservasi.setTotalDeposit(0);
+        reservasi.setTax(0);
+        reservasi.setDp(0);
+        reservasi.setSisaDeposit(0);
+        reservasi.setSisaPembayaran(0);
+        reservasi.setJumlahKamar(jumlahKamar);
+        reservasi.setJumlahDewasa(GlobalVariable.jumlahDewasa);
+        reservasi.setJumlahAnak(GlobalVariable.jumlahAnak);
+        reservasi.setJumlahOrang(jumlahOrang);
+        reservasi.setStatusReservasi("on-process");
+        reservasi.setCabang_res(cabangDao.getOne(GlobalVariable.cabangId));
+        reservasi.setUsers(userDao.getOne(userDao.getIdByUsername(authentication.getName())));
+        String kodeBooking="", tanggalRes, bulanRes, tahunRes;
+        tanggalRes = reservasiDao.tanggalReservasi(timestamp);
+        bulanRes = reservasiDao.bulanReservasi(timestamp);
+        tahunRes = reservasiDao.tahunReservasi(timestamp);
+        int reservasiId = reservasiDao.getIdReservasi();
+        GlobalVariable.resId = reservasiId;
+        kodeBooking = "P"+tanggalRes+bulanRes+tahunRes+"-"+"0"+reservasiId;
+        reservasi.setKodeBooking(kodeBooking);
+        reservasiDao.save(reservasi);
 
-        reservasiTemp.setJumlahKamar(1);
 
-        reservasiTemp.setJumlahDewasa(GlobalVariable.jumlahDewasa);
 
-        reservasiTemp.setTanggalCheckIn(GlobalVariable.tanggalCheckIn);
-
-        reservasiTemp.setTanggalCheckOut(GlobalVariable.tanggalCheckOut);
-
-        reservasiTemp.setHarga(kamar.getJenisKamar().getHargaJenisKamar());
-
-        reservasiTemp.setKamarId(id);
-
-        reservasiTemp.setCabangId(GlobalVariable.cabangId);
-
-        reservasiTemp.setKodeKamar(kamar.getKodeKamar());
-
-        reservasiTemp.setNamaJenisKamar(kamar.getJenisKamar().getNamaJenisKamar());
-
-        // ini nanti di anuin sm durasi dan harga season
-
-        tempDao.save(reservasiTemp);
 
         return model;
+    }
+
+    public Model manageReservasiFasilitasBerbayar(Model model,int extraBed,int laundryRegularPotong,
+                                                  int laundryFastServicePotong, int massageOrang,
+                                                  int minibarMinuman, int tambahanBreakfastOrang,
+                                                  int lunchPackageOrang, int dinnerPackageOrang,
+                                                  int meetingRoomFullDayOrang){
+
+        int[] quantityFasilitasBerbayar = new int[9];
+        quantityFasilitasBerbayar[0] = extraBed;
+        quantityFasilitasBerbayar[1] = laundryRegularPotong;
+        quantityFasilitasBerbayar[2] = laundryFastServicePotong;
+        quantityFasilitasBerbayar[3] = massageOrang;
+        quantityFasilitasBerbayar[4] = minibarMinuman;
+        quantityFasilitasBerbayar[5] = tambahanBreakfastOrang;
+        quantityFasilitasBerbayar[6] = lunchPackageOrang;
+        quantityFasilitasBerbayar[7] = dinnerPackageOrang;
+        quantityFasilitasBerbayar[8] = meetingRoomFullDayOrang;
+        double harga;
+        double subtotal;
+        for(int i=0;i<9;i++)
+        {
+            if(quantityFasilitasBerbayar[i]>0)
+            {
+                harga = fasilitasBerbayarDao.getHargaFasilitasById(i+1);
+                subtotal = quantityFasilitasBerbayar[i] * harga;
+
+                permintaanKhususDao.saveToPermintaanKhusus(GlobalVariable.resId,i+1,quantityFasilitasBerbayar[i],harga,subtotal);
+            }
+        }
+        return model;
+    }
+
+    public Model manageDetailReservasi(Model model){
+
+        List<JenisKamarTemp> jenisKamarTemps = jenisKamarTempDao.findAll();
+        List <Integer> kumpulanKamars= new ArrayList<>();
+
+        for (JenisKamarTemp jenisKamarTemp : jenisKamarTemps)
+        {
+            if(jenisKamarTemp.getStok()>0)
+            {
+                List<Kamar> kamarTemps = kamarDao.getSomeKamarTersedia(jenisKamarTemp.getJenisKamarId(),jenisKamarTemp.getStok(),GlobalVariable.tanggalCheckIn,GlobalVariable.tanggalCheckOut);
+                for (Kamar kamarTemp : kamarTemps)
+                {
+                    detailReservasiDao.saveToDetailReservasi(GlobalVariable.resId,jenisKamarTemp.getJenisKamarId(),kamarTemp.getKamarId(),GlobalVariable.tanggalCheckIn,GlobalVariable.tanggalCheckOut,jenisKamarTemp.getHargaKamar()/jenisKamarTemp.getStok());
+                }
+            }
+        }
+        return model;
+    }
+
+    public Model manageFormKelolaReservasi(Model model){
+
+        model.addAttribute("reservasi", reservasiDao.findAll());
+        model.addAttribute("search", new SearchTambahDurasi());
+        return model;
+    }
+    public String manageTambahDurasi(SearchTambahDurasi searchTambahDurasi,Model model){
+        GlobalVariable.durasi = searchTambahDurasi.getDurasi();
+        GlobalVariable.reservasiId= searchTambahDurasi.getReservasiId();
+        return "redirect:/kelolaReservasi";
     }
 
 }

@@ -158,3 +158,9 @@ footer a:hover {
 textarea {
     resize: none;
 }
+.well {
+    height: 150px;
+    width: 50%;
+    color: black;
+    background-color: #e6eaed;
+}

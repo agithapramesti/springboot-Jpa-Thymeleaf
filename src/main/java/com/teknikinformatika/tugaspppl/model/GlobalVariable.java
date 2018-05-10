@@ -4,5 +4,6 @@ import java.util.Date;
 
 public class GlobalVariable {
     public static Date tanggalCheckIn, tanggalCheckOut;
-    public static int cabangId, jumlahAnak, jumlahDewasa;
+    public static int cabangId, jumlahAnak, jumlahDewasa, durasi, reservasiId, resId;
+
 }

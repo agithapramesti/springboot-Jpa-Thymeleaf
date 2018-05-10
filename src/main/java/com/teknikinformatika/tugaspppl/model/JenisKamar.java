@@ -33,6 +33,8 @@ public class JenisKamar {
     @Column(name = "gambar_kamar")
     @Size(max = 255)
     private String gambarKamar;
+//    private int jumlahKamarAvailable;
+
     @ManyToMany(mappedBy = "jenisKamars")
     private List<Fasilitas> fasilitas= new ArrayList<>();
     @OneToMany(mappedBy = "jenisKamar")

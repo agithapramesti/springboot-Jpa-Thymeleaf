@@ -53,12 +53,12 @@ public class Reservasi {
     private String statusReservasi;
 
     @ManyToOne
-    @JoinColumn(name = "cabang_id",insertable=false, updatable=false)
+    @JoinColumn(name = "cabang_id",insertable=true, updatable=true)
     private Cabang cabang_res;
     @OneToMany(mappedBy = "reservasi")
     private List<DetailReservasi> detailReservasis=new ArrayList<>();
     @ManyToOne
-    @JoinColumn(name = "user_id",insertable=false, updatable=false)
+    @JoinColumn(name = "user_id",insertable=true, updatable=true)
     private User users;
     @OneToMany(mappedBy = "reservasis")
     private List<PermintaanKhusus> permintaanKhususes=new ArrayList<>();

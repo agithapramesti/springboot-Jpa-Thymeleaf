@@ -1,0 +1,113 @@
+body{
+    margin:0;
+    padding:0;
+    background:#853442;
+    font-family:verdana;
+    text-decoration:none;
+}
+.center {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-decoration:none;
+    position:relative;
+    text-decoration:none;
+    width:100px;
+    height:50px;
+    text-align:center;
+    line-height:50px;
+    display:inline-block;
+    font-size:24px;
+    color:#262626;
+}
+
+.center:before {
+    content:'';
+    position:absolute;
+    top:-2px;
+    left:-2px;
+    width:0;
+    height:0;
+    background:transparent;
+    border:2px solid transparent;
+}
+a:hover:before {
+    text-decoration:none;
+    animation:animate 1s linear forwards;
+}
+
+@keyframes animate {
+    0%
+    {
+        width:0;
+        height:0;
+        border-top-color: #0f0f0f;
+        border-right-color: #0f0f0f;
+        border-bottom-color: #0f0f0f;
+        border-left-color: #0f0f0f;
+    }
+    50%
+    {
+        width:100%;
+        height:0;
+        border-top-color: #0f0f0f;
+        border-right-color: #0f0f0f;
+        border-bottom-color: #0f0f0f;
+        border-left-color: #0f0f0f;
+    }
+    100%
+    {
+        width:100%;
+        height:100%;
+        border-top-color: #0f0f0f;
+        border-right-color:  #0f0f0f;
+        border-bottom-color: #0f0f0f;
+        border-left-color: #0f0f0f;
+    }
+}
+a:after {
+    content:'';
+    position:absolute;
+    top:-2px;
+    left:-2px;
+    width:0;
+    height:0;
+    background:transparent;
+    border:2px solid transparent;
+}
+a:hover:after {
+    text-decoration:none;
+    animation:animate2 1s linear forwards;
+    animation-delay: 1s;
+}
+
+@keyframes animate2 {
+    0%
+    {
+        width:0;
+        height:0;
+        border-top-color: #0f0f0f;
+        border-right-color: #0f0f0f;
+        border-bottom-color: #0f0f0f;
+        border-left-color: #0f0f0f;
+    }
+    50%
+    {
+        width:0;
+        height:100%;
+        border-top-color: #0f0f0f;
+        border-right-color: #0f0f0f;
+        border-bottom-color: #0f0f0f;
+        border-left-color: #0f0f0f;
+    }
+    100%
+    {
+        width:100%;
+        height:100%;
+        border-top-color: #0f0f0f;
+        border-right-color: #0f0f0f;
+        border-bottom-color: #0f0f0f;
+        border-left-color: #0f0f0f;
+    }
+}

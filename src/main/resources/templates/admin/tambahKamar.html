@@ -19,7 +19,21 @@
     <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
 
     <link th:href="@{/css/customerPage.css}" rel="stylesheet" media="screen"/>
+    <style>
+        .addButton {
+            padding: 10px 20px;
+            background-color: darkorange;
+            color: white;
+            border-radius: 0;
+            transition: .2s;
+        }
+        .addButton:hover, .addButton:focus {
+            border: 1px solid darkorange;
+            background-color: white;
+            color: darkorange;
 
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -35,8 +49,8 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="/home">Home</a></li>
-                <li><a href="#">Reservasi</a></li>
-                <li><a href="/season">Promo</a></li>
+                <li><a href="/reservasi">Reservasi</a></li>
+                <li><a href="/season">Season</a></li>
 
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -55,11 +69,8 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <form th:action="@{/logout}" method="post">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <input type="submit" value="Keluar" class="btn btn-danger"/>
-                </form>
 
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
             </ul>
         </div>
     </div>
@@ -133,7 +144,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <hr style="border:1px dashed #dddddd;">
-                                <button type="submit" onclick="myFunction()" class="btn btn-danger btn-block">Submit dan selesai</button>
+                                <button type="submit" onclick="myFunction()" class="btn btn-block addButton">Submit dan selesai</button>
                             </div>
                         </div>
 

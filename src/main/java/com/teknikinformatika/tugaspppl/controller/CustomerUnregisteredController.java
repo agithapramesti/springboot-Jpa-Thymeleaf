@@ -5,6 +5,8 @@ import com.teknikinformatika.tugaspppl.service.ReservasiService;
 import com.teknikinformatika.tugaspppl.service.SeasonService;
 import com.teknikinformatika.tugaspppl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,11 +32,7 @@ public class CustomerUnregisteredController {
         return userService.save(model, user);
 
     }
-    @RequestMapping("/loginAkun")
-    public String loginAkun() {
 
-        return "loginAkun";
-    }
     @RequestMapping(value = {"/daftar"})
     public String daftarAkun(Model model) {
         model= userService.manageTambahUser(model);
@@ -43,5 +41,10 @@ public class CustomerUnregisteredController {
     @RequestMapping(value = {"/daftar"},method = RequestMethod.POST)
     public String simpanPelanggan(@ModelAttribute("users")User user, Model model) {
         return userService.saveUserRegistered(model,user);
+    }
+    @RequestMapping(value = {"/homePelanggan"})
+    public String mainPagePelanggan(Model model) {
+
+        return "customer/homePelanggan";
     }
 }

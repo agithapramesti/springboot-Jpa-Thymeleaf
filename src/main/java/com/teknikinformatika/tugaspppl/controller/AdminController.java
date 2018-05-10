@@ -3,6 +3,8 @@ package com.teknikinformatika.tugaspppl.controller;
 import com.teknikinformatika.tugaspppl.model.User;
 import com.teknikinformatika.tugaspppl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,14 +12,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class AdminController {
     @Autowired
     private UserService userService;
     @RequestMapping(value = {"/"})
     public String mainPage() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = auth.getAuthorities().toString();
+        System.out.println("testimonianda");
+        System.out.println(role);
+        if(role.contains("PM")){
+            return "redirect:/home";
+        }
+        else{
+            return "redirect:/homePelanggan";
+        }
 
-        return "home";
     }
     @RequestMapping(value = {"/home"})
     public String mainPageLogin() {
@@ -29,6 +42,13 @@ public class AdminController {
 
         return "login";
     }
+//    @RequestMapping("/defaultSuccessUrl")
+//    public String defaultSuccessUrl(HttpServletRequest request) {
+//        if(request.isUserInRole("PM")){
+//            return "redirect:/home";
+//        }
+//        return "redirect:/homePelanggan";
+//    }
     @RequestMapping(value = "/exceptionHandling")
     public String exceptionHandling() {
 

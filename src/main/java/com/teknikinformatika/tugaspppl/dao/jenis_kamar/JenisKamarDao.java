@@ -16,5 +16,8 @@ public interface JenisKamarDao extends JpaRepository<JenisKamar,Integer>    {
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE jenis_kamar set jenis_kamar.status_jenis = case when jenis_kamar.status_jenis=1 then 0 when jenis_kamar.status_jenis=0 then 1 end where jenis_kamar.jenis_kamar_id= :id ",nativeQuery = true)
     void softDelete(@Param("id") int id);
-
+    @Query(value = "SELECT jenis_kamar.nama_jenis_kamar from jenis_kamar WHERE  jenis_kamar_id= :id",nativeQuery = true)
+    String namaJenisKamarById(@Param("id") int id);
+    @Query(value = "SELECT jenis_kamar.harga_jenis_kamar from jenis_kamar WHERE  jenis_kamar_id= :id",nativeQuery = true)
+    double hargaJenisKamarById(@Param("id") int id);
 }

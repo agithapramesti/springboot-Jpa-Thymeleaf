@@ -43,6 +43,8 @@ public class SeasonService {
         if(season.getStatuSeason()==0){
             season.setStatuSeason(1);
         }
+        System.out.println("taggal season1"+season.getTanggalMulai());
+        System.out.println("tanggal season"+season.getTanggalSelesai());
         seasonDao.save(season);
         return "redirect:/season";
     }

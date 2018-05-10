@@ -14,7 +14,7 @@
     <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
     <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
     <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/css/styleBuatBtn02.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/styleTable.css}" rel="stylesheet" media="screen"/>
 
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.css"/>
@@ -35,8 +35,8 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="/home">Home</a></li>
-                <li><a href="#">Reservasi</a></li>
-                <li><a href="/season">Promo</a></li>
+                <li><a href="/reservasi">Reservasi</a></li>
+                <li><a href="/season">Season</a></li>
 
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -53,13 +53,9 @@
                 </li>
 
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
-                <form th:action="@{/logout}" method="post">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <input type="submit" value="Keluar" class="btn btn-danger"/>
-                </form>
 
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
             </ul>
         </div>
     </div>
@@ -115,12 +111,12 @@
                     <tbody>
                         <tr th:each="kamar: ${kamar}">
                             <td class="text-center">
-                                <a class="btn btn-info btn-xs" th:href="${'/dataKamar/editKamar/'+kamar.kamarId}">
+                                <a class="btn btn-primary btn-xs " th:href="${'/dataKamar/editKamar/'+kamar.kamarId}">
                             <span class="glyphicon glyphicon-edit">
 
                             </span>
                                 </a>
-                                <a class="btn btn-info btn-xs" th:href="${'/dataKamar/softdelete/'+kamar.kamarId}">
+                                <a class="btn btn-danger btn-xs" th:href="${'/dataKamar/softdelete/'+kamar.kamarId}">
                             <span class="glyphicon glyphicon-remove">
 
                             </span>

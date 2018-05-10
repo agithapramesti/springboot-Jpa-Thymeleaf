@@ -38,7 +38,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="/home">Home</a></li>
-                <li><a href="#">Reservasi</a></li>
+                <li><a href="/reservasi">Reservasi</a></li>
                 <li><a href="/season">Season</a></li>
 
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
@@ -59,7 +59,7 @@
 
             <ul class="nav navbar-nav navbar-right">
 
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
             </ul>
         </div>
     </div>
@@ -104,7 +104,7 @@
                         <tbody>
                         <tr th:each="season: ${season}">
                             <td class="text-center">
-                                <a class="btn btn-info btn-xs" th:href="${'/season/editSeason/'+season.seasonId}">
+                                <a class="btn btn-primary btn-xs" th:href="${'/season/editSeason/'+season.seasonId}">
                             <span class="glyphicon glyphicon-edit">
 
                             </span>
@@ -139,16 +139,12 @@
 
 </body>
 <script>
-    $(function () {
-        $( '#showTable' ).searchable({
-            striped: true,
-            oddRow: { 'background-color': '#f5f5f5' },
-            evenRow: { 'background-color': '#fff' },
-            searchType: 'fuzzy'
-        });
-    });
     $(document).ready(function() {
-        $('.datatable').DataTable();
+        $('.datatable').DataTable({
+            paging:false,
+            info:false,
+            lengthChange:false
+        });
     });
 </script>
 </html>

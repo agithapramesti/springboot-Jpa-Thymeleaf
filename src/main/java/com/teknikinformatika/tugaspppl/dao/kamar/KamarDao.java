@@ -1,5 +1,6 @@
 package com.teknikinformatika.tugaspppl.dao.kamar;
 
+import com.teknikinformatika.tugaspppl.model.JenisK;
 import com.teknikinformatika.tugaspppl.model.Kamar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,14 +30,10 @@ public interface KamarDao extends JpaRepository<Kamar,Integer>{
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE kamar set kamar.status_kamar = case when kamar.status_kamar=1 then 0 when kamar.status_kamar=0 then 1 end where kamar.kamar_id= :id ",nativeQuery = true)
     void softDelete(@Param("id") int id);
+    @Query(value = "SELECT * FROM kamar WHERE jenis_kamar_id=:jenisKamarId AND kamar_id NOT IN (SELECT dr.kamar_id from detail_reservasi dr WHERE :tanggalCheckIn BETWEEN dr.tanggal_check_in and dr.tanggal_check_out OR :tanggalCheckOut BETWEEN dr.tanggal_check_in and dr.tanggal_check_out) LIMIT :limit", nativeQuery = true)
+    List<Kamar> getSomeKamarTersedia(@Param("jenisKamarId") int jenisKamarId, @Param("limit") int limit,
+                                     @Param("tanggalCheckIn") Date tanggalCheckIn,
+                                     @Param("tanggalCheckOut") Date tanggalCheckOut);
 
-    @Modifying
-    @Query(value = "SELECT * FROM kamar k\n" +
-            "where k.kamar_id not IN\n" +
-            "(SELECT dr.kamar_id from detail_reservasi dr WHERE :tanggalCheckIn BETWEEN dr.tanggal_check_in and dr.tanggal_check_out OR \n" +
-            ":tanggalCheckOut BETWEEN dr.tanggal_check_in and dr.tanggal_check_out) and k.status_kamar=1 and k.kamar_id IN\n" +
-            "(SELECT kc.kamar_id from kamar_cabang kc WHERE kc.cabang_id=:cabangId) and k.kamar_id NOT IN(SELECT rt.kamar_id from reservasi_temp rt)",nativeQuery = true)
-    List<Kamar> getAllKamarTersediaReservasi(@Param("tanggalCheckIn")Date tanggalCheckIn,
-                                             @Param("tanggalCheckOut")Date tanggalCheckOut,
-                                             @Param("cabangId")int cabangId);
+
 }

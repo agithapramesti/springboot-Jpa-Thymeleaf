@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/moment-with-locales.min.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/styleTable.css}" rel="stylesheet" media="screen"/>
+
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.js"></script>
+
+</head>
+<body>
+
+<div class="row">
+    <br><br>
+
+</div>
+<div class="row">
+    <br><br>
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h3 class="panel-title">Pemesanan Hotel</h3>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div  class="panel-body">
+                <div style="margin-left:8%;" class="col col-xs-6 well">
+                    <b class="m1xq0">Permintaan Khusus (Optional)</b>
+                    <table>
+                        <form method="post"  th:action="@{'/hasilReservasi'}">
+                            <tr>
+                                <td>Extra Bed : </td>
+                                <td><input id="extraBed" type="number" class="form-control" name="extraBed" th:object="${extraBed}" value="0" min="0" max="10"/></td>
+                            </tr>
+                            <tr>
+                                <td>Laundry Regular /Potong : </td>
+                                <td><input id="laundryRegularPotong" type="number" class="form-control" name="laundryRegularPotong" th:object="${laundryRegularPotong}" value="0" min="0" max="50"/></td>
+                            </tr>
+                            <tr>
+                                <td>Laundry Fast Service /Potong : </td>
+                                <td><input id="laundryFastServicePotong" type="number" class="form-control" name="laundryFastServicePotong" th:object="${laundryFastServicePotong}"  value="0" min="0" max="50"/></td>
+                            </tr>
+                            <tr>
+                                <td>Massage /Orang : </td>
+                                <td><input id="massageOrang" type="number" class="form-control" name="massageOrang" th:object="${massageOrang}"  value="0" min="0" max="20"/></td>
+                            </tr>
+                            <tr>
+                                <td>Minibar Minuman : </td>
+                                <td><input id="minibarMinuman" type="number" class="form-control" name="minibarMinuman" th:object="${minibarMinuman}"  value="0" min="0" max="10"/></td>
+                            </tr>
+                            <tr>
+                                <td>Tambahan Breakfast /Orang : </td>
+                                <td><input id="tambahanBreakfastOrang" type="number" class="form-control" name="tambahanBreakfastOrang" th:object="${tambahanBreakfastOrang}"  value="0" min="0" max="20"/></td>
+                            </tr>
+                            <tr>
+                                <td>Lunch Package /Orang : </td>
+                                <td><input id="lunchPackageOrang" type="number" class="form-control" name="lunchPackageOrang" th:object="${lunchPackageOrang}" value="0" min="0" max="20"/></td>
+                            </tr>
+                            <tr>
+                                <td>Dinner Package /Orang : </td>
+                                <td><input id="dinnerPackageOrang" type="number" class="form-control" name="dinnerPackageOrang" th:object="${dinnerPackageOrang}" value="0" min="0" max="20"/></td>
+                            </tr>
+                            <tr>
+                                <td>Meeting Room Full Day /Orang : </td>
+                                <td><input id="meetingRoomFullDayOrang" type="number" class="form-control" name="meetingRoomFullDayOrang" th:object="${meetingRoomFullDayOrang}" value="0" min="0" max="20"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center"><input type="submit" class="btn btn-primary" value="Lanjutkan"></td>
+                            </tr>
+
+
+                        </form>
+                    </table>
+
+
+                </div>
+                <div class="col col-xs-4 well">
+
+                    <b class="m1xq0">Rincian Pemesanan</b>
+                    <hr style="border:1px dashed black;">
+                    <div class="col-sm-4 ">Kota</div>
+                    <span th:text="${kotaCabang}"></span>
+                    <br>
+                    <div class="col-sm-4 ">Check In</div>
+                    <span id="tanggalCheckIn" th:value="${tanggalCheckIn}" th:text="${tanggalCheckIn}"></span>
+                    <br>
+                    <div class="col-sm-4 ">Check Out</div>
+                    <span id="tanggalCheckOut" th:value="${tanggalCheckOut}" th:text="${tanggalCheckOut}"></span>
+                    <br>
+                    <div class="col-sm-4 ">Jumlah Tamu</div>
+                    <span th:text="${jumlahTamu}"></span>
+                    <span> Orang</span>
+                    <br>
+                    <div class="col-sm-4 ">Kamar</div>
+                    <span th:text="${jumlahKamar}"></span>
+                    <span> Kamar</span>
+                    <br>
+                    <div class="col-sm-4 ">Durasi</div>
+                    <span th:text="${diffDays}"></span>
+                    <span> Malam</span>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function() {
+        $('.datatable').DataTable();
+    });
+</script>
+
+</body>
+</html>
