@@ -62,12 +62,12 @@ public class ReservasiController {
         reservasiService.manageReservasiAndDetails(authentication,model);
         return "tambahFasilitasBerbayar";
     }
-    @RequestMapping(value = {"/hasilReservasi"})
+    @RequestMapping(value = {"/nota"})
     public String hasilReservasi(Model model){
 
-        return "hasilReservasi";
+        return "nota";
     }
-    @RequestMapping(value = {"/hasilReservasi"},method = RequestMethod.POST)
+    @RequestMapping(value = {"/nota"},method = RequestMethod.POST)
     public String tambahFasilitasBerbayarPost(Model model,@ModelAttribute("extraBed") int extraBed,
                                               @ModelAttribute("laundryRegularPotong") int laundryRegularPotong,
                                               @ModelAttribute("laundryFastServicePotong") int laundryFastServicePotong,
@@ -80,7 +80,9 @@ public class ReservasiController {
         reservasiService.manageReservasiFasilitasBerbayar(model,extraBed,laundryRegularPotong,laundryFastServicePotong,
                 massageOrang,minibarMinuman,tambahanBreakfastOrang,lunchPackageOrang,dinnerPackageOrang,meetingRoomFullDayOrang);
         reservasiService.manageDetailReservasi(model);
-        return "redirect:/hasilReservasi";
+        reservasiService.kalkulasiFasilitasBerbayar();
+        reservasiService.kalkulasiTotalPembayaran();
+        return "redirect:/nota";
     }
 
     @RequestMapping(value = {"/kelolaReservasi"})

@@ -132,6 +132,7 @@ public class ReservasiService {
         long endTime = GlobalVariable.tanggalCheckOut.getTime();
         long diffTime = endTime - startTime;
         long diffDays = diffTime / (1000 * 60 * 60 * 24);
+        GlobalVariable.durasiTemp = (int)diffDays;
         model.addAttribute("diffDays",diffDays);
         int jumlahOrang = GlobalVariable.jumlahAnak + GlobalVariable.jumlahDewasa;
 
@@ -214,7 +215,7 @@ public class ReservasiService {
     public Model manageDetailReservasi(Model model){
 
         List<JenisKamarTemp> jenisKamarTemps = jenisKamarTempDao.findAll();
-        List <Integer> kumpulanKamars= new ArrayList<>();
+
 
         for (JenisKamarTemp jenisKamarTemp : jenisKamarTemps)
         {
@@ -240,6 +241,28 @@ public class ReservasiService {
         GlobalVariable.durasi = searchTambahDurasi.getDurasi();
         GlobalVariable.reservasiId= searchTambahDurasi.getReservasiId();
         return "redirect:/kelolaReservasi";
+    }
+    public void kalkulasiFasilitasBerbayar(){
+
+        Double fasilitasBerbayar = reservasiDao.kalkukasiFasilitasBerbayar(GlobalVariable.resId);
+        System.out.println("1");
+        if(fasilitasBerbayar==null)
+        {
+            fasilitasBerbayar=0.0;
+            System.out.println("2");
+        }
+        GlobalVariable.kalkulasiFasilitasBerbayar = fasilitasBerbayar;
+        System.out.println("1:"+fasilitasBerbayar);
+    }
+    public void kalkulasiTotalPembayaran(){
+        Double season = seasonDao.getSeasonByTanggalAndCabang(GlobalVariable.tanggalCheckIn,GlobalVariable.cabangId);
+        if(season == null || season==0)
+        {
+            season=100.0;
+        }
+        Double tax = 10.0;
+        Double totalTransaksi = GlobalVariable.durasiTemp * (reservasiDao.getTotalTransaksiById(GlobalVariable.resId) + GlobalVariable.kalkulasiFasilitasBerbayar) * (season/100) * ((100+tax)/100);
+        reservasiDao.updateTotalTransaksi(GlobalVariable.resId,tax,totalTransaksi);
     }
 
 }

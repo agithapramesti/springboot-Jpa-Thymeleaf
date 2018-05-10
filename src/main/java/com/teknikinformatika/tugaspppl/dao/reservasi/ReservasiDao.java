@@ -3,6 +3,7 @@ package com.teknikinformatika.tugaspppl.dao.reservasi;
 import com.teknikinformatika.tugaspppl.model.Reservasi;
 import com.teknikinformatika.tugaspppl.model.ReservasiTemp;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -35,4 +36,13 @@ public interface ReservasiDao extends JpaRepository<Reservasi,Integer>{
     String bulanReservasi(@Param("tanggal") Date tanggal);
     @Query(value = "SELECT DATE_FORMAT(:tanggal, '%y') ", nativeQuery = true)
     String tahunReservasi(@Param("tanggal") Date tanggal);
+    @Query(value = "SELECT sum(permintaan_khusus.subtotal_permintaan) FROM permintaan_khusus WHERE permintaan_khusus.reservasi_id= :id", nativeQuery = true)
+    Double kalkukasiFasilitasBerbayar(@Param("id") int resId);
+//    @Query(value = "SELECT count(reservasi_id) FROM permintaan_khusus WHERE reservasi_id=:id", nativeQuery = true)
+//    int countFasilitasBerbayar(@Param("id") int id);
+    @Query(value = "SELECT total_transaksi FROM reservasi WHERE reservasi_id=:id", nativeQuery = true)
+    Double getTotalTransaksiById(@Param("id") int id);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE reservasi SET tax=:tax,total_transaksi=:totalTransaksi WHERE reservasi_id=:id",nativeQuery = true)
+    void updateTotalTransaksi(@Param("id") int id,@Param("tax") double tax,@Param("totalTransaksi")double totalTransaksi);
 }

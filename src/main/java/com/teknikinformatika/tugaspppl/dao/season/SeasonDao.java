@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,4 +23,7 @@ public interface SeasonDao extends JpaRepository<Season, Integer>{
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE season set season.status_season = case when season.status_season=1 then 0 when season.status_season=0 then 1 end where season.season_id= :id ",nativeQuery = true)
     void softDelete(@Param("id") int id);
+    @Query(value= "SELECT season.promo_season FROM season WHERE :tanggalCheckIn BETWEEN tanggal_mulai AND tanggal_selesai AND cabang_id=:cabangId LIMIT 1",nativeQuery = true)
+    Double getSeasonByTanggalAndCabang(@Param("tanggalCheckIn") Date tanggalCheckIn,
+                                             @Param("cabangId")int cabangId);
 }
