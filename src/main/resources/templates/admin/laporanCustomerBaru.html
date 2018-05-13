@@ -14,15 +14,10 @@
     <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
     <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
     <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
-
-
-    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
-
-    <link th:href="@{/css/exceptionCss.css}" rel="stylesheet" media="screen"/>
-
+    <link th:href="@{/css/styleTable.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Grand Atma Hotels</a>
@@ -37,7 +32,6 @@
                 <li><a href="/home">Home</a></li>
                 <li><a href="/reservasi">Reservasi</a></li>
                 <li><a href="/season">Season</a></li>
-
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/dataPelanggan">Data Pelanggan</a></li>
@@ -50,29 +44,38 @@
                 </li>
 
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
-                <form th:action="@{/logout}" method="post">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <input type="submit" value="Keluar" class="btn btn-danger"/>
-                </form>
 
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
             </ul>
         </div>
     </div>
 </nav>
-<div id="w">
-    <div id="content">
-        <!-- Icons source http://dribbble.com/shots/913555-Flat-Web-Elements -->
 
-        <div class="notify errorbox text-center" >
-            <h1>Warning!</h1>
-            <span class="alerticon"></span>
-            <p>Setiap Kamar Hanya Terdiri Pada 2 Cabang!</p>
-        </div>
+<!------ Include the above in your HEAD tag ---------->
 
+<div class="container">
+    <div class="row">
 
-    </div><!-- @end #content -->
-</div><!-
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Bulan</th>
+                <th>Jumlah</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer: ${customer}">
+
+                <td th:text="${customer.bulan}"></td>
+                <td th:text="${customer.jumlah}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <b>Total: </b>
+        <span th:text="${total}"></span>
+    </div>
+</div>
 </body>
 </html>

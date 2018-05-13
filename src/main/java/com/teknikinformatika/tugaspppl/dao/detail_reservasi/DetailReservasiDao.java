@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface DetailReservasiDao extends JpaRepository<DetailReservasi,Integer>{
@@ -21,4 +22,6 @@ public interface DetailReservasiDao extends JpaRepository<DetailReservasi,Intege
                                @Param("tanggalCheckIn") Date tanggalCheckIn,
                                @Param("tanggalCheckOut") Date tanggalCheckOut,
                                @Param("subTotalDetail") double subTotalDetail);
+    @Query(value = "SELECT * FROM detail_reservasi WHERE detail_reservasi.reservasi_id=:resId", nativeQuery = true)
+    List<DetailReservasi> getAllDetailByResId(@Param("resId")int resId);
 }

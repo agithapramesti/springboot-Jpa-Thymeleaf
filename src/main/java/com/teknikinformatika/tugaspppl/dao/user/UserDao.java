@@ -32,5 +32,6 @@ public interface UserDao extends JpaRepository<User,Integer>{
     String getUsernameUserById(@Param("id") Integer id);
     @Query(value = "SELECT user.user_id FROM user WHERE user.username= :username ", nativeQuery = true)
     int getIdByUsername(@Param("username") String username);
-
+    @Query(value = "SELECT user.user_id,user.email,user.kata_sandi,user.nama,user.nama_pemegang_kartu,user.no_identitas,user.no_kartu,user.no_telp,user.status_user,user.username,user.cabang_id=:cabangId,user.role_id=:roleId,user.alamat,user.tanggal_user from user  JOIN reservasi ON user.user_id = reservasi.user_id WHERE reservasi.user_id=:userId LIMIT 1",nativeQuery = true)
+    User getUserByResId(@Param("userId")int userId,@Param("cabangId")int cabangId, @Param("roleId")int roleId);
 }

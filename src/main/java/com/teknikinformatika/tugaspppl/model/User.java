@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -39,6 +40,7 @@ public class User {
     private String namaPemegangKartu;
     @Column(name = "no_kartu")
     private String noKartu;
+    private Date tanggalUser;
     @ManyToOne
     @JoinColumn(name = "cabang_id",insertable=true, updatable=true)
     private Cabang cabang;

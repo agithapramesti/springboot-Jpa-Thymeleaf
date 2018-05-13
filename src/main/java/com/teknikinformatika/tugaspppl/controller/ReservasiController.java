@@ -42,8 +42,7 @@ public class ReservasiController {
     }
     @RequestMapping(value = {"/tambahKamarReservasi/tambah/{id}"})
     public String pindahCart(@PathVariable("id") int id, Model model,@ModelAttribute("quantity") int quantity) {
-        System.out.println("hai: "+id);
-        System.out.println("quanti"+quantity);
+
         model = reservasiService.manageMoveToCart(id, model, quantity);
         return "redirect:/tambahKamarReservasi";
     }
@@ -63,8 +62,8 @@ public class ReservasiController {
         return "tambahFasilitasBerbayar";
     }
     @RequestMapping(value = {"/nota"})
-    public String hasilReservasi(Model model){
-
+    public String hasilReservasi(Model model,Authentication authentication){
+        reservasiService.manageReservasiNota(model,authentication);
         return "nota";
     }
     @RequestMapping(value = {"/nota"},method = RequestMethod.POST)
@@ -88,11 +87,23 @@ public class ReservasiController {
     @RequestMapping(value = {"/kelolaReservasi"})
     public String kelolaReservasi(Model model){
         reservasiService.manageFormKelolaReservasi(model);
-        return "kelolaReservasi";
+        return "/admin/kelolaReservasi";
     }
     @RequestMapping(value = {"/kelolaReservasi/search"},method = RequestMethod.POST)
     public String manageKelolaDurasi(Model model, SearchTambahDurasi searchModel) {
         return reservasiService.manageTambahDurasi(searchModel,model);
     }
-
+    @RequestMapping(value = {"/kelolaReservasi/lanjut/{id}"})
+    public String lanjutProsesPemesanan(@PathVariable int id, Model model){
+        return reservasiService.manageFormEditReservasi(id,model);
+    }
+    @RequestMapping(value = {"/kelolaReservasi/batal/{id}"})
+    public String batalProsesPemesanan(@PathVariable int id, Model model){
+        return reservasiService.manageFormBatalReservasi(id,model);
+    }
+    @RequestMapping(value = {"/kelolaReservasi/histori"})
+    public String tampilHistori(Model model){
+        reservasiService.manageFormHistoriReservasi(model);
+        return "admin/historireservasi";
+    }
 }

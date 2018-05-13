@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/styleTable.css}" rel="stylesheet" media="screen"/>
+
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Grand Atma Hotels</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/reservasi">Reservasi</a></li>
+                <li><a href="/season">Promo</a></li>
+
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/kelolaReservasi">Kelola Reservasi</a></li>
+                        <li><a href="/dataPelanggan">Data Pelanggan</a></li>
+                        <li><a href="/dataPegawai">Data Pegawai</a></li>
+                        <li><a href="/dataKamar">Data Kamar</a></li>
+                        <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
+                        <li><a href="#">Kelola Reservasi</a></li>
+                        <li><a href="/laporan">Laporan</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div >
+    <br><br>
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h3 class="panel-title">Kelola Reservasi</h3>
+                    </div>
+
+                </div>
+
+            </div>
+            <div  class="panel-body">
+                <form style="opacity:1;" id="myForm" class="form-horizontal" th:object="${search}" th:action="@{/kelolaReservasi/search}" method="post">
+                    <div style="float:left" class="col-sm-3">
+                        <b>Pilih Kode Booking</b>
+                        <div class="input-group">
+                            <select class="form-control" th:field="*{reservasiId}">
+                                <option th:each="reservasi: ${reservasi}"
+                                        th:value="${reservasi.reservasId}"
+                                        th:text="${reservasi.kodeBooking}">
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div style="float:left" class="form-group col-sm-3">
+                        <b>Durasi</b>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-th-list" aria-hidden="true"></i></span>
+                            <input type="number" id="dewasa" class="form-control" min="1" max="7" maxlength="2" th:field="*{durasi}"
+                                   placeholder="Jumlah Hari" required>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <span>&nbsp;</span>
+                        <span class="input-group-btn">
+                            <button class="addButton btn btn-default btn-search " type="submit" name="button">Tambah
+                            </button>
+                            </span>
+                    </div>
+                </form>
+
+            </div>
+            <a class="btn btn-primary" th:href="${'/kelolaReservasi/histori'}">
+                            <span>
+                                Histori
+                            </span>
+            </a>
+            <table class="datatable table-responsive text-center table table-hover table-bordered" th:if="${not #lists.isEmpty(reservasii)}" id="showTable" cellspacing="0" width="100%">
+                <thead class="text-primary text-center">
+                <th class="col-tools"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                </th>
+
+                <th>Kode Booking</th>
+                <th>Jenis Reservasi</th>
+
+                <th>Sisa Deposit</th>
+                <th>Sisa Pembayaran</th>
+                <th>Tanggal Reservasi</th>
+
+                <th>Total Transaksi</th>
+                <th>Cabang</th>
+                <th>Nama</th>
+                <th>Status Reservasi</th>
+
+
+                </thead>
+                <tbody>
+                <tr th:each="reserv : ${reservasii}">
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-xs" th:if="${reserv.statusReservasi!='check-out' && reserv.statusReservasi!='batal'}" th:href="${'/kelolaReservasi/lanjut/'+reserv.reservasId}">
+                            <span class="glyphicon glyphicon-edit">
+                                Lanjutkan
+                            </span>
+                        </a>
+                        <a class="btn btn-danger btn-xs" th:if="${reserv.statusReservasi!='check-out'}" th:href="${'/kelolaReservasi/batal/'+reserv.reservasId}">
+                            <span class="glyphicon glyphicon-remove">
+                                Batal
+                            </span>
+                        </a>
+
+                    </td>
+                    <td th:text="${reserv.kodeBooking}"></td>
+                    <td th:text="${reserv.jenisReservasi}"></td>
+
+                    <td th:text="${reserv.sisaDeposit}"></td>
+                    <td th:text="${reserv.sisaPembayaran}"></td>
+                    <td th:text="${reserv.tanggalReservasi}"></td>
+                    <td th:text="${reserv.totalTransaksi}"></td>
+                    <td  th:if="${reserv.cabang_res.cabangId== 1}" th:text="Yogyakarta"></td>
+                    <td  th:if="${reserv.cabang_res.cabangId== 2}" th:text="Bandung"></td>
+                    <td th:text="${reserv.users.nama}"></td>
+                    <td th:text="${reserv.statusReservasi}"></td>
+
+
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function() {
+        $('.datatable').DataTable({
+            "order": [ 5, "asc" ]
+        });
+    });
+
+</script>
+
+</body>
+</html>

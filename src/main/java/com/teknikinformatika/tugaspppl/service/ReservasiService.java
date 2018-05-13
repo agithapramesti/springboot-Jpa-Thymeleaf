@@ -23,6 +23,7 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -175,9 +176,6 @@ public class ReservasiService {
         reservasi.setKodeBooking(kodeBooking);
         reservasiDao.save(reservasi);
 
-
-
-
         return model;
     }
 
@@ -233,13 +231,56 @@ public class ReservasiService {
 
     public Model manageFormKelolaReservasi(Model model){
 
-        model.addAttribute("reservasi", reservasiDao.findAll());
+        model.addAttribute("reservasi", reservasiDao.getAllReservasisNotCheckOut());
+        model.addAttribute("reservasii", reservasiDao.findAll());
         model.addAttribute("search", new SearchTambahDurasi());
         return model;
     }
+
+    public Model manageFormHistoriReservasi(Model model){
+
+        model.addAttribute("reservasi", reservasiDao.getAllReservasisCheckOut());
+
+        return model;
+    }
+
+    public String manageFormEditReservasi(int reservasiId,Model model){
+        String statusReservasi="";
+        Reservasi reservasi = new Reservasi();
+        reservasi = reservasiDao.getOne(reservasiId);
+        statusReservasi = reservasi.getStatusReservasi();
+        if(statusReservasi.equalsIgnoreCase("on-process"))
+        {
+            reservasiDao.editReservasi(reservasiId,"check-in");
+        }
+        else if(statusReservasi.equalsIgnoreCase("check-in"))
+        {
+            reservasiDao.editReservasi(reservasiId,"check-out");
+        }
+
+        return "redirect:/kelolaReservasi";
+    }
+
+    public String manageFormBatalReservasi(int reservasiId,Model model){
+
+        reservasiDao.batalReservasi(reservasiId);
+        reservasiDao.deleteDetailReservasi(reservasiId);
+        reservasiDao.deletePermintaanKhususReservasi(reservasiId);
+
+        return "redirect:/kelolaReservasi";
+    }
+
     public String manageTambahDurasi(SearchTambahDurasi searchTambahDurasi,Model model){
-        GlobalVariable.durasi = searchTambahDurasi.getDurasi();
-        GlobalVariable.reservasiId= searchTambahDurasi.getReservasiId();
+        int id = searchTambahDurasi.getReservasiId();
+        int tambahDurasi = searchTambahDurasi.getDurasi();
+        Calendar c = Calendar.getInstance();
+        Reservasi reservasi = new Reservasi();
+        reservasi = reservasiDao.getOne(id);
+        Date tanggalCheckOut = reservasi.getDetailReservasis().get(0).getTanggalCheckOut();
+        c.setTime(tanggalCheckOut);
+        c.add(Calendar.DATE,tambahDurasi);
+        Date newTanggalCheckOut = c.getTime();
+        reservasiDao.tambahDurasi(id,newTanggalCheckOut);
         return "redirect:/kelolaReservasi";
     }
     public void kalkulasiFasilitasBerbayar(){
@@ -264,5 +305,16 @@ public class ReservasiService {
         Double totalTransaksi = GlobalVariable.durasiTemp * (reservasiDao.getTotalTransaksiById(GlobalVariable.resId) + GlobalVariable.kalkulasiFasilitasBerbayar) * (season/100) * ((100+tax)/100);
         reservasiDao.updateTotalTransaksi(GlobalVariable.resId,tax,totalTransaksi);
     }
+    public Model manageReservasiNota(Model model,Authentication authentication){
+        Reservasi r = new Reservasi();
+        int userId = userDao.getIdByUsername(authentication.getName());
+        r = reservasiDao.getOne(GlobalVariable.resId);
+        DetailReservasi detailReservasi = new DetailReservasi();
 
+
+        model.addAttribute("kodeBooking",r.getKodeBooking());
+        model.addAttribute("details",detailReservasiDao.getAllDetailByResId(GlobalVariable.resId));
+        model.addAttribute("total", reservasiDao.getTotalTransaction(GlobalVariable.resId));
+        return model;
+    }
 }

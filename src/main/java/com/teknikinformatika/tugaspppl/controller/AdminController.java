@@ -1,6 +1,7 @@
 package com.teknikinformatika.tugaspppl.controller;
 
 import com.teknikinformatika.tugaspppl.model.User;
+import com.teknikinformatika.tugaspppl.service.ReportService;
 import com.teknikinformatika.tugaspppl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private ReportService reportService;
     @RequestMapping(value = {"/"})
     public String mainPage() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

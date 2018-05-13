@@ -45,4 +45,44 @@ public interface ReservasiDao extends JpaRepository<Reservasi,Integer>{
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE reservasi SET tax=:tax,total_transaksi=:totalTransaksi WHERE reservasi_id=:id",nativeQuery = true)
     void updateTotalTransaksi(@Param("id") int id,@Param("tax") double tax,@Param("totalTransaksi")double totalTransaksi);
+    @Query(value = "SELECT sum(reservasi.total_transaksi) from reservasi WHERE reservasi.reservasi_id=:resId",nativeQuery = true)
+    double getTotalTransaction(@Param("resId")int resId);
+    @Query(value = "SELECT sum(IFNULL(SecondSet.Personal,0)+IFNULL(ThirdSet.Grup,0)) AS 'Total' FROM ( SELECT date_format(r.tanggal_reservasi,'%M') AS 'tanggal' FROM reservasi r GROUP BY date_format(r.tanggal_reservasi,'%M') ) AS FirstSet LEFT OUTER JOIN ( SELECT date_format(r.tanggal_reservasi,'%M') as 'tanggal', sum(r.total_transaksi) as \"Personal\" FROM reservasi r WHERE r.jenis_reservasi = 'P' GROUP by date_format(r.tanggal_reservasi,'%M') ) as SecondSet on FirstSet.tanggal = SecondSet.tanggal left outer JOIN ( SELECT date_format(r.tanggal_reservasi,'%M') as 'tanggal', sum(r.total_transaksi) as \"Grup\" FROM reservasi r WHERE r.jenis_reservasi = 'G' GROUP by date_format(r.tanggal_reservasi,'%M') )as ThirdSet on FirstSet.tanggal = ThirdSet.tanggal",nativeQuery = true)
+    double getTotalPerulan();
+    @Query(value = "SELECT COUNT(U.user_id) as \"total\" FROM user U WHERE U.role_id = 7 and YEAR(U.tanggal_user) = YEAR(CURRENT_DATE)",nativeQuery = true)
+    int getTotalCustomerBaru();
+    @Query(value = "SELECT sum(IFNULL(SecondSet.jumlahOrang,0)+IFNULL(ThirdSet.jumlahOrang,0)) AS 'Total' \n" +
+            "FROM \n" +
+            "( \n" +
+            "SELECT jenis_kamar.jenis_kamar_id as 'jenisKamarId', jenis_kamar.nama_jenis_kamar as 'namaJenisKamar' FROM jenis_kamar \n" +
+            ") AS FirstSet \n" +
+            "LEFT OUTER JOIN \n" +
+            "( SELECT jenis_kamar.jenis_kamar_id as 'jenisKamarId', sum(reservasi.jumlah_orang) as 'jumlahOrang' FROM detail_reservasi JOIN reservasi ON(detail_reservasi.reservasi_id=reservasi.reservasi_id) JOIN jenis_kamar ON(detail_reservasi.jenis_kamar_id=jenis_kamar.jenis_kamar_id) WHERE detail_reservasi.reservasi_id IN (SELECT reservasi.reservasi_id FROM reservasi WHERE MONTH(reservasi.tanggal_reservasi)=MONTH(CURRENT_DATE) AND reservasi.jenis_reservasi='P') GROUP BY detail_reservasi.jenis_kamar_id \n" +
+            ") as SecondSet \n" +
+            "on FirstSet.jenisKamarId = SecondSet.jenisKamarId \n" +
+            "left outer JOIN \n" +
+            "( \n" +
+            "SELECT jenis_kamar.jenis_kamar_id as 'jenisKamarId', sum(reservasi.jumlah_orang) as 'jumlahOrang' FROM detail_reservasi JOIN reservasi ON(detail_reservasi.reservasi_id=reservasi.reservasi_id) JOIN jenis_kamar ON(detail_reservasi.jenis_kamar_id=jenis_kamar.jenis_kamar_id) WHERE detail_reservasi.reservasi_id IN (SELECT reservasi.reservasi_id FROM reservasi WHERE MONTH(reservasi.tanggal_reservasi)=MONTH(CURRENT_DATE) AND reservasi.jenis_reservasi='G') GROUP BY detail_reservasi.jenis_kamar_id \n" +
+            ") as ThirdSet \n" +
+            "on FirstSet.jenisKamarId = ThirdSet.jenisKamarId ",nativeQuery = true)
+    int totalJumlahTamuJenisKamar();
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE reservasi set reservasi.status_reservasi=:statusReservasi where reservasi.reservasi_id= :id",nativeQuery = true)
+    void editReservasi(@Param("id") int id, @Param("statusReservasi") String statusReservasi);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "DELETE FROM reservasi where reservasi.reservasi_id= :id",nativeQuery = true)
+    void batalReservasi(@Param("id") int id);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "DELETE FROM detail_reservasi where detail_reservasi.reservasi_id= :id",nativeQuery = true)
+    void deleteDetailReservasi(@Param("id") int id);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "DELETE FROM permintaan_khusus where permintaan_khusus.reservasi_id= :id",nativeQuery = true)
+    void deletePermintaanKhususReservasi(@Param("id") int id);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE detail_reservasi set detail_reservasi.tanggal_check_out=:tanggalCheckOut where detail_reservasi.reservasi_id= :reservasiId",nativeQuery = true)
+    void tambahDurasi(@Param("reservasiId") int reservasiId, @Param("tanggalCheckOut") Date tanggalCheckOut);
+    @Query(value = "SELECT * FROM reservasi WHERE reservasi.status_reservasi != 'check-out'",nativeQuery = true)
+    List<Reservasi> getAllReservasisNotCheckOut();
+    @Query(value = "SELECT * FROM reservasi WHERE reservasi.status_reservasi = 'check-out'",nativeQuery = true)
+    List<Reservasi> getAllReservasisCheckOut();
 }
