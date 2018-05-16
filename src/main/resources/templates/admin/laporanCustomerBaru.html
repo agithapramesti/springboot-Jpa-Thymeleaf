@@ -38,7 +38,7 @@
                         <li><a href="/dataPegawai">Data Pegawai</a></li>
                         <li><a href="/dataKamar">Data Kamar</a></li>
                         <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
-                        <li><a href="#">Kelola Reservasi</a></li>
+                        <li><a href="/kelolaReservasi">Kelola Reservasi</a></li>
                         <li><a href="/laporan">Laporan</a></li>
                     </ul>
                 </li>
@@ -56,6 +56,12 @@
 
 <div class="container">
     <div class="row">
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <a href="" class="btn btn-default" onclick="myFunction()"><i class="fa fa-print"></i>Cetak Laporan</a>
+            </div>
+        </div>
+        <br>
         <b>Tahun: </b>
         <span th:text="${tahun}"></span>
         <table class="table table-striped">
@@ -78,5 +84,11 @@
         <span th:text="${total}"></span>
     </div>
 </div>
+
+<script>
+    function myFunction() {
+        window.print();
+    }
+</script>
 </body>
 </html>

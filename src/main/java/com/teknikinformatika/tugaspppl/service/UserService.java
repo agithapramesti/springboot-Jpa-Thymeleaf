@@ -58,20 +58,17 @@ public class UserService {
     public void authenticateUserAndSetSession(User user, HttpServletRequest request) {
         String username = user.getUsername();
         String password = user.getKataSandi();
-        System.out.println("wowGG"+username+""+password);
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         // generate session if one doesn't exist
         request.getSession();
-        System.out.println("wowGG");
+
         token.setDetails(new WebAuthenticationDetails(request));
         Authentication authenticatedUser = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-        System.out.println(authenticatedUser.getName()+"Ilovegege");
-        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-        System.out.println("wowGGKOKO");
 
-//        session.setAttribute("username", username);
-//        session.setAttribute("authorities", token.getAuthorities());
+        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+
 
     }
     public String saveUserRegistered(Model model,User user){
@@ -84,7 +81,7 @@ public class UserService {
 
             }
             userDao.save(user);
-            return "redirect:/customerPage";
+            return "redirect:/grandatmahotel";
         }
         else
         {

@@ -38,7 +38,7 @@
                         <li><a href="/dataPegawai">Data Pegawai</a></li>
                         <li><a href="/dataKamar">Data Kamar</a></li>
                         <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
-                        <li><a href="#">Kelola Reservasi</a></li>
+                        <li><a href="/kelolaReservasi">Kelola Reservasi</a></li>
                         <li><a href="/laporan">Laporan</a></li>
                     </ul>
                 </li>
@@ -56,7 +56,12 @@
 
 <div class="container">
     <div class="row">
-
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <a href="" class="btn btn-default" onclick="myFunction()"><i class="fa fa-print"></i>Cetak Laporan</a>
+            </div>
+        </div>
+        <br>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -70,15 +75,22 @@
             <tr th:each="pendapatan: ${pendapatan}">
 
                 <td th:text="${pendapatan.bulan}"></td>
-                <td th:text="${pendapatan.yogyakarta}"></td>
-                <td th:text="${pendapatan.bandung}"></td>
-                <td th:text="${pendapatan.total}"></td>
+                <td th:text="${#numbers.formatDecimal(pendapatan.yogyakarta, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
+                <td th:text="${#numbers.formatDecimal(pendapatan.bandung, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
+                <td th:text="${#numbers.formatDecimal(pendapatan.total, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
+
             </tr>
             </tbody>
         </table>
         <b>Total: </b>
-        <span th:text="${total}"></span>
+
+        <span th:text="${#numbers.formatDecimal(total, 0, 'DEFAULT', 0, 'DEFAULT')}"></span>
     </div>
 </div>
+<script>
+    function myFunction() {
+        window.print();
+    }
+</script>
 </body>
 </html>

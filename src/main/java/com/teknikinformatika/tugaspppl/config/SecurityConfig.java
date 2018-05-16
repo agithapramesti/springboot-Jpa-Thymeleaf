@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .authorizeRequests().antMatchers("/css/**","/customerPage","/reservasi","/nota","/js/**","/fonts/**","/images/**","/daftar").permitAll() // Enable css when logged out
+                .authorizeRequests().antMatchers("/css/**","/grandatmahotel","/reservasi","/nota","/js/**","/fonts/**","/images/**","/daftar").permitAll() // Enable css when logged out
                 .and()
                 .authorizeRequests()
                 .antMatchers("home","/data/**","season","/tambah/**","/edit/**","/hasil/**").access("hasAnyAuthority('PM')")

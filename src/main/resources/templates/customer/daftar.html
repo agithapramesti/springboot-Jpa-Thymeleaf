@@ -25,7 +25,7 @@
                 <h3 class="panel-title">Daftarkan Akun Anda <small>Gratis!</small></h3>
             </div>
             <div class="panel-body">
-                <form <form th:object="${users}" th:action="@{/daftar/}" method="post">
+                <form th:object="${users}" th:action="@{/daftar/}" method="post">
                     <input type="hidden" th:field="*{userId}"/>
                     <input type="hidden" th:field="*{statusUser}"/>
                     <input type="hidden" th:field="*{role.roleId}"/>
@@ -80,9 +80,9 @@
                     <div class="form-group">
                         <input th:field="*{username}"  maxlength="8" type="text" class="form-control" id="usernamee" name="usernamee"  placeholder="Username" required>
                     </div>
-                <div class="form-group">
-                    <input th:field="*{kataSandi}"  maxlength="8"  type="password" class="form-control" id="kataSandii" name="kataSandii"  placeholder="Password" required>
-                </div>
+                    <div class="form-group">
+                        <input th:field="*{kataSandi}"  maxlength="8"  type="password" class="form-control" id="kataSandii" name="kataSandii"  placeholder="Password" required>
+                    </div>
 
 
                     <input type="submit" value="Register" class="btn btn-info btn-block">

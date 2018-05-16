@@ -21,7 +21,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.js"></script>
 
 </head>
-<body onload="window.print()">
+<body>
 
 <section class="content content_content" style="width: 70%; margin: auto;">
     <section class="invoice">
@@ -73,8 +73,8 @@
                     <thead>
                     <tr>
                         <th>Tanggal Check In</th>
-                        <th>Tanggal Check In</th>
-                        <th>Sub Total</th>
+                        <th>Tanggal Check Out</th>
+                        <th>Sub Total(Rp.)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -82,7 +82,7 @@
 
                         <td th:text="${details.tanggalCheckIn}"></td>
                         <td th:text="${details.tanggalCheckOut}"></td>
-                        <td th:text="${details.subtotalDetail}"></td>
+                        <td th:text="${#numbers.formatDecimal(details.subtotalDetail, 0, 'DEFAULT', 0, 'DEFAULT')}" ></td>
                     </tr>
                     </tbody>
                 </table>
@@ -99,7 +99,7 @@
 
                         <tr>
                             <th>Total (Rp.):</th>
-                            <td th:text="${total}"></td>
+                            <td th:text="${#numbers.formatDecimal(total, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
 
                         </tr>
                         </tbody>
@@ -111,7 +111,7 @@
         <!-- this row will not appear when printing -->
         <div class="row no-print">
             <div class="col-xs-12">
-                <a href="" class="btn btn-default"><i class="fa fa-print"></i>Download Tanda Terima</a>
+                <a href="" class="btn btn-default" onclick="myFunction()"><i class="fa fa-print"></i>Download Tanda Terima</a>
             </div>
         </div>
         <div class="row ">
@@ -123,5 +123,10 @@
 </section>
 
 
+<script>
+    function myFunction() {
+        window.print();
+    }
+</script>
 </body>
 </html>

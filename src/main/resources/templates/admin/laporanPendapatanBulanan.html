@@ -38,7 +38,7 @@
                         <li><a href="/dataPegawai">Data Pegawai</a></li>
                         <li><a href="/dataKamar">Data Kamar</a></li>
                         <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
-                        <li><a href="#">Kelola Reservasi</a></li>
+                        <li><a href="/kelolaReservasi">Kelola Reservasi</a></li>
                         <li><a href="/laporan">Laporan</a></li>
                     </ul>
                 </li>
@@ -56,6 +56,12 @@
 
 <div class="container">
     <div class="row">
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <a href="" class="btn btn-default" onclick="myFunction()"><i class="fa fa-print"></i>Cetak Laporan</a>
+            </div>
+        </div>
+        <br>
         <b>Tahun: </b>
         <span th:text="${tahun}"></span>
         <table class="table table-striped">
@@ -71,14 +77,15 @@
             <tr th:each="incomeBln: ${incomeBln}">
 
                 <td th:text="${incomeBln.tanggal}"></td>
-                <td th:text="${incomeBln.personal}"></td>
-                <td th:text="${incomeBln.grup}"></td>
-                <td th:text="${incomeBln.total}"></td>
+
+                <td th:text="${#numbers.formatDecimal(incomeBln.personal, 0, 'DEFAULT', 0, 'DEFAULT')}" ></td>
+                <td th:text="${#numbers.formatDecimal(incomeBln.grup, 0, 'DEFAULT', 0, 'DEFAULT')}" ></td>
+                <td th:text="${#numbers.formatDecimal(incomeBln.total, 0, 'DEFAULT', 0, 'DEFAULT')}" ></td>
             </tr>
             </tbody>
         </table>
         <b>Total Seluruh: Rp. </b>
-        <span th:text="${totalSeluruh}"></span>
+        <span th:text="${#numbers.formatDecimal(totalSeluruh, 0, 'DEFAULT', 0, 'DEFAULT')}"></span>
         <br>
         <b>Kota Cabang Yogya</b>
         <table class="table table-striped">
@@ -94,9 +101,9 @@
             <tr th:each="incomeBlnYgy: ${incomeBlnYgy}">
 
                 <td th:text="${incomeBlnYgy.tanggal}"></td>
-                <td th:text="${incomeBlnYgy.personal}"></td>
-                <td th:text="${incomeBlnYgy.grup}"></td>
-                <td th:text="${incomeBlnYgy.total}"></td>
+                <td th:text="${#numbers.formatDecimal(incomeBlnYgy.personal, 0, 'DEFAULT', 0, 'DEFAULT')}" ></td>
+                <td th:text="${#numbers.formatDecimal(incomeBlnYgy.grup, 0, 'DEFAULT', 0, 'DEFAULT')}" ></td>
+                <td th:text="${#numbers.formatDecimal(incomeBlnYgy.total, 0, 'DEFAULT', 0, 'DEFAULT')}" ></td>
             </tr>
             </tbody>
         </table>
@@ -115,13 +122,18 @@
             <tr th:each="incomeBlnBdg: ${incomeBlnBdg}">
 
                 <td th:text="${incomeBlnBdg.tanggal}"></td>
-                <td th:text="${incomeBlnBdg.personal}"></td>
-                <td th:text="${incomeBlnBdg.grup}"></td>
-                <td th:text="${incomeBlnBdg.total}"></td>
+                <td th:text="${#numbers.formatDecimal(incomeBlnBdg.personal, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
+                <td th:text="${#numbers.formatDecimal(incomeBlnBdg.grup, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
+                <td th:text="${#numbers.formatDecimal(incomeBlnBdg.total, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+<script>
+    function myFunction() {
+        window.print();
+    }
+</script>
 </body>
 </html>

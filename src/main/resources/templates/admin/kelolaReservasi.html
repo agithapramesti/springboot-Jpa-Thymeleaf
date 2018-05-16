@@ -45,7 +45,7 @@
                         <li><a href="/dataPegawai">Data Pegawai</a></li>
                         <li><a href="/dataKamar">Data Kamar</a></li>
                         <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
-                        <li><a href="#">Kelola Reservasi</a></li>
+                        <li><a href="/kelolaReservasi">Kelola Reservasi</a></li>
                         <li><a href="/laporan">Laporan</a></li>
                     </ul>
                 </li>
@@ -60,108 +60,114 @@
     </div>
 </nav>
 
-<div >
+<div>
     <br><br>
     <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default panel-table">
             <div class="panel-heading">
-                <div class="row">
-                    <div class="col col-xs-6">
-                        <h3 class="panel-title">Kelola Reservasi</h3>
-                    </div>
-
-                </div>
+                <h3 class="panel-title">Kelola Reservasi</h3>
 
             </div>
             <div  class="panel-body">
-                <form style="opacity:1;" id="myForm" class="form-horizontal" th:object="${search}" th:action="@{/kelolaReservasi/search}" method="post">
-                    <div style="float:left" class="col-sm-3">
-                        <b>Pilih Kode Booking</b>
-                        <div class="input-group">
-                            <select class="form-control" th:field="*{reservasiId}">
-                                <option th:each="reservasi: ${reservasi}"
-                                        th:value="${reservasi.reservasId}"
-                                        th:text="${reservasi.kodeBooking}">
-                                </option>
-                            </select>
-                        </div>
+                <div class="col-md-12">
+                    <form style="opacity:1;" id="myForm" class="form-horizontal" th:object="${search}" th:action="@{/kelolaReservasi/search}" method="post">
+                        <div style="float:left" class="col-sm-3">
+                            <b>Pilih Kode Booking</b>
+                            <div class="input-group">
+                                <select class="form-control" th:field="*{reservasiId}">
+                                    <option th:each="reservasi: ${reservasi}"
+                                            th:value="${reservasi.reservasId}"
+                                            th:text="${reservasi.kodeBooking}">
+                                    </option>
+                                </select>
+                            </div>
 
-                    </div>
-                    <div style="float:left" class="form-group col-sm-3">
-                        <b>Durasi</b>
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-th-list" aria-hidden="true"></i></span>
-                            <input type="number" id="dewasa" class="form-control" min="1" max="7" maxlength="2" th:field="*{durasi}"
-                                   placeholder="Jumlah Hari" required>
                         </div>
-                    </div>
-                    <div class="form-group col-sm-2">
-                        <span>&nbsp;</span>
-                        <span class="input-group-btn">
+                        <div style="float:left" class="form-group col-sm-3">
+                            <b>Durasi</b>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-th-list" aria-hidden="true"></i></span>
+                                <input type="number" id="dewasa" class="form-control" min="1" max="7" maxlength="2" th:field="*{durasi}"
+                                       placeholder="Jumlah Hari" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2" style="float:left">
+                            <span>&nbsp;</span>
+                            <span class="input-group-btn" >
                             <button class="addButton btn btn-default btn-search " type="submit" name="button">Tambah
                             </button>
                             </span>
-                    </div>
-                </form>
-
-            </div>
-            <a class="btn btn-primary" th:href="${'/kelolaReservasi/histori'}">
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <span>&nbsp;</span>
+                            <a class="btn btn-primary" th:href="${'/kelolaReservasi/histori'}">
                             <span>
-                                Histori
+                                Histori Pemesanan
                             </span>
-            </a>
-            <table class="datatable table-responsive text-center table table-hover table-bordered" th:if="${not #lists.isEmpty(reservasii)}" id="showTable" cellspacing="0" width="100%">
-                <thead class="text-primary text-center">
-                <th class="col-tools"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                </th>
+                            </a>
+                        </div>
 
-                <th>Kode Booking</th>
-                <th>Jenis Reservasi</th>
+                    </form>
+                </div>
 
-                <th>Sisa Deposit</th>
-                <th>Sisa Pembayaran</th>
-                <th>Tanggal Reservasi</th>
+                <div class="col-md-12">
+                    <table class="datatable table-responsive text-center table table-hover table-bordered" th:if="${not #lists.isEmpty(reservasii)}" id="showTable" cellspacing="0">
+                        <thead class="text-primary text-center">
+                        <th class="col-tools"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                        </th>
 
-                <th>Total Transaksi</th>
-                <th>Cabang</th>
-                <th>Nama</th>
-                <th>Status Reservasi</th>
+                        <th>Kode Booking</th>
+                        <th>Jenis Reservasi</th>
+
+                        <th>Sisa Deposit</th>
+                        <th>Sisa Pembayaran</th>
+                        <th>Tanggal Reservasi</th>
+
+                        <th>Total Transaksi</th>
+                        <th>Cabang</th>
+                        <th>Nama</th>
+                        <th>Status Reservasi</th>
 
 
-                </thead>
-                <tbody>
-                <tr th:each="reserv : ${reservasii}">
-                    <td class="text-center">
-                        <a class="btn btn-primary btn-xs" th:if="${reserv.statusReservasi!='check-out' && reserv.statusReservasi!='batal'}" th:href="${'/kelolaReservasi/lanjut/'+reserv.reservasId}">
+                        </thead>
+                        <tbody>
+                        <tr th:each="reserv : ${reservasii}">
+                            <td class="text-center">
+                                <a class="btn btn-primary btn-xs" th:if="${reserv.statusReservasi!='check-out' && reserv.statusReservasi!='batal'}" th:href="${'/kelolaReservasi/lanjut/'+reserv.reservasId}">
                             <span class="glyphicon glyphicon-edit">
                                 Lanjutkan
                             </span>
-                        </a>
-                        <a class="btn btn-danger btn-xs" th:if="${reserv.statusReservasi!='check-out'}" th:href="${'/kelolaReservasi/batal/'+reserv.reservasId}">
+                                </a>
+                                <a class="btn btn-danger btn-xs" th:if="${reserv.statusReservasi!='check-out'}" th:href="${'/kelolaReservasi/batal/'+reserv.reservasId}">
                             <span class="glyphicon glyphicon-remove">
                                 Batal
                             </span>
-                        </a>
+                                </a>
 
-                    </td>
-                    <td th:text="${reserv.kodeBooking}"></td>
-                    <td th:text="${reserv.jenisReservasi}"></td>
+                            </td>
+                            <td th:text="${reserv.kodeBooking}"></td>
+                            <td th:text="${reserv.jenisReservasi}"></td>
 
-                    <td th:text="${reserv.sisaDeposit}"></td>
-                    <td th:text="${reserv.sisaPembayaran}"></td>
-                    <td th:text="${reserv.tanggalReservasi}"></td>
-                    <td th:text="${reserv.totalTransaksi}"></td>
-                    <td  th:if="${reserv.cabang_res.cabangId== 1}" th:text="Yogyakarta"></td>
-                    <td  th:if="${reserv.cabang_res.cabangId== 2}" th:text="Bandung"></td>
-                    <td th:text="${reserv.users.nama}"></td>
-                    <td th:text="${reserv.statusReservasi}"></td>
-
-
-                </tr>
+                            <td th:text="${reserv.sisaDeposit}"></td>
+                            <td th:text="${reserv.sisaPembayaran}"></td>
+                            <td th:text="${reserv.tanggalReservasi}"></td>
+                            <td th:text="${#numbers.formatDecimal(reserv.totalTransaksi, 0, 'DEFAULT', 0, 'DEFAULT')}"></td>
+                            <td  th:if="${reserv.cabang_res.cabangId== 1}" th:text="Yogyakarta"></td>
+                            <td  th:if="${reserv.cabang_res.cabangId== 2}" th:text="Bandung"></td>
+                            <td th:text="${reserv.users.nama}"></td>
+                            <td th:text="${reserv.statusReservasi}"></td>
 
 
-                </tbody>
-            </table>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
         </div>
     </div>
 </div>
@@ -170,7 +176,8 @@
 
     $(document).ready(function() {
         $('.datatable').DataTable({
-            "order": [ 5, "asc" ]
+            "order": [ 5, "asc" ],
+            responsive: true
         });
     });
 

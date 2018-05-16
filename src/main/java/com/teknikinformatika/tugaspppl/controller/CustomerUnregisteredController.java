@@ -26,7 +26,7 @@ public class CustomerUnregisteredController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = {"/customerPage"})
+    @RequestMapping(value = {"/grandatmahotel"})
     public String mainPageCustomerTidakLogin(Model model) {
         model=reservasiService.manageFormCustomerPage(model);
         return "customer/customerPage";
