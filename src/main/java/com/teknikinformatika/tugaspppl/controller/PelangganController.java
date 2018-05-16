@@ -1,11 +1,11 @@
 package com.teknikinformatika.tugaspppl.controller;
 
+import com.teknikinformatika.tugaspppl.dao.user.UserDao;
+import com.teknikinformatika.tugaspppl.model.Reservasi;
 import com.teknikinformatika.tugaspppl.model.SearchModel;
-import com.teknikinformatika.tugaspppl.model.SearchTambahDurasi;
-import com.teknikinformatika.tugaspppl.service.CabangService;
-import com.teknikinformatika.tugaspppl.service.JenisKamarService;
-import com.teknikinformatika.tugaspppl.service.KamarService;
+import com.teknikinformatika.tugaspppl.model.User;
 import com.teknikinformatika.tugaspppl.service.ReservasiService;
+import com.teknikinformatika.tugaspppl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,56 +16,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ReservasiController {
+public class PelangganController {
     @Autowired
-    private  ReservasiService reservasiService;
+    private UserService userService;
     @Autowired
-    private JenisKamarService jenisKamarService;
-    @Autowired
-    private CabangService cabangService;
-    @Autowired
-    private KamarService kamarService;
-    @RequestMapping(value = {"/reservasi"},method = RequestMethod.GET)
-    public String manageReservasi(Model model, Authentication authentication) {
+    private ReservasiService reservasiService;
+    @RequestMapping(value = {"/halamanPelanggan"},method = RequestMethod.GET)
+    public String halamanPelanggan(Model model, Authentication authentication) {
+
+        model = userService.kelolaDataPelanggan(model,authentication);
+        return "/customer/halamanPelanggan";
+    }
+    @RequestMapping(value = {"/ubahProfil"},method = RequestMethod.GET)
+    public String manageUbahProfil(Model model, Authentication authentication){
+        model = userService.manageUbahProfilAkun(model,authentication);
+        return "/customer/ubahProfil";
+    }
+    @RequestMapping(value = {"/ubahProfil"},method = RequestMethod.POST)
+    public String simpanPelanggan(@ModelAttribute("users")User user, Model model) {
+
+        return userService.ubahProfil(model,user);
+    }
+    @RequestMapping(value = {"/reservasiPelanggan"},method = RequestMethod.GET)
+    public String reservasiPelanggan(Model model, Authentication authentication){
         model= reservasiService.manageFormCobaReservasi(model,authentication);
-        return "reservasi";
+        return "/customer/reservasiPelanggan";
     }
-    @RequestMapping(value = {"/reservasi/search"},method = RequestMethod.POST)
+    @RequestMapping(value = {"/reservasiPelanggan/search"},method = RequestMethod.POST)
     public String manageSearchReservasi(Model model, SearchModel searchModel) {
-        return reservasiService.manageSearchKamarAvailable(model,searchModel);
+        return reservasiService.manageSearchKamarReservasiPelangganAvailable(model,searchModel);
     }
-    @RequestMapping(value = {"/tambahKamarReservasi"},method = RequestMethod.GET)
-    public String manageTambahKamarReservasi(Model model) {
+    @RequestMapping(value = {"/tambahKamarReservasiPelanggan"},method = RequestMethod.GET)
+    public String tambahKamarReservasiPelanggan(Model model) {
         model = reservasiService.getAllKamarTersediaReservasi(model);
-        return "tambahKamarReservasi";
+        return "/customer/tambahKamarReservasiPelanggan";
     }
-    @RequestMapping(value = {"/tambahKamarReservasi/tambah/{id}"})
-    public String pindahCart(@PathVariable("id") int id, Model model,@ModelAttribute("quantity") int quantity) {
+    @RequestMapping(value = {"/tambahKamarReservasiPelanggan/tambah/{id}"})
+    public String pindahCart(@PathVariable("id") int id, Model model, @ModelAttribute("quantity") int quantity) {
 
         model = reservasiService.manageMoveToCart(id, model, quantity);
-        return "redirect:/tambahKamarReservasi";
+        return "redirect:/tambahKamarReservasiPelanggan";
     }
-    @RequestMapping(value = {"/tambahKamarReservasi/hapus/{id}"})
+    @RequestMapping(value = {"/tambahKamarReservasiPelanggan/hapus/{id}"})
     public String hapusDariCart(@PathVariable("id") int id){
         reservasiService.hapusCartById(id);
-        return "redirect:/tambahKamarReservasi";
+        return "redirect:/tambahKamarReservasiPelanggan";
     }
-    @RequestMapping(value = {"/tambahKamarReservasi/kembali"})
+    @RequestMapping(value = {"/tambahKamarReservasiPelanggan/kembali"})
     public String kembaliKeHalamanAwal(){
         reservasiService.hapusAllCart();
-        return "redirect:/reservasi";
+        return "redirect:/reservasiPelanggan";
     }
-    @RequestMapping(value = {"/tambahFasilitasBerbayar"})
+    @RequestMapping(value = {"/tambahFasilitasBerbayarPelanggan"})
     public String tambahFasilitasBerbayar(Model model,Authentication authentication){
         reservasiService.manageReservasiAndDetails(authentication,model);
-        return "tambahFasilitasBerbayar";
+        return "/customer/tambahFasilitasBerbayarPelanggan";
     }
-    @RequestMapping(value = {"/nota"})
+    @RequestMapping(value = {"/notaPelanggan"})
     public String hasilReservasi(Model model,Authentication authentication){
         reservasiService.manageReservasiNota(model,authentication);
-        return "nota";
+        return "/customer/notaPelanggan";
     }
-    @RequestMapping(value = {"/nota"},method = RequestMethod.POST)
+    @RequestMapping(value = {"/notaPelanggan"},method = RequestMethod.POST)
     public String tambahFasilitasBerbayarPost(Model model,@ModelAttribute("extraBed") int extraBed,
                                               @ModelAttribute("laundryRegularPotong") int laundryRegularPotong,
                                               @ModelAttribute("laundryFastServicePotong") int laundryFastServicePotong,
@@ -80,29 +92,11 @@ public class ReservasiController {
         reservasiService.manageDetailReservasi(model);
         reservasiService.kalkulasiFasilitasBerbayar();
         reservasiService.kalkulasiTotalPembayaran();
-        return "redirect:/nota";
+        return "redirect:/notaPelanggan";
     }
+    @RequestMapping(value = {"/pemesananSaya"})
+    public String pemesananSaya(Model model,Authentication authentication){
 
-    @RequestMapping(value = {"/kelolaReservasi"})
-    public String kelolaReservasi(Model model){
-        reservasiService.manageFormKelolaReservasi(model);
-        return "/admin/kelolaReservasi";
-    }
-    @RequestMapping(value = {"/kelolaReservasi/search"},method = RequestMethod.POST)
-    public String manageKelolaDurasi(Model model, SearchTambahDurasi searchModel) {
-        return reservasiService.manageTambahDurasi(searchModel,model);
-    }
-    @RequestMapping(value = {"/kelolaReservasi/lanjut/{id}"})
-    public String lanjutProsesPemesanan(@PathVariable int id, Model model){
-        return reservasiService.manageFormEditReservasi(id,model);
-    }
-    @RequestMapping(value = {"/kelolaReservasi/batal/{id}"})
-    public String batalProsesPemesanan(@PathVariable int id, Model model){
-        return reservasiService.manageFormBatalReservasi(id,model);
-    }
-    @RequestMapping(value = {"/kelolaReservasi/histori"})
-    public String tampilHistori(Model model){
-        reservasiService.manageFormHistoriReservasi(model);
-        return "admin/historireservasi";
+        return "/customer/pemesananSaya";
     }
 }

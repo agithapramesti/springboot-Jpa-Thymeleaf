@@ -31,7 +31,8 @@ public class AdminController {
             return "redirect:/home";
         }
         else{
-            return "redirect:/homePelanggan";
+
+            return "redirect:/halamanPelanggan";
         }
 
     }

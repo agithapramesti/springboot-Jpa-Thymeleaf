@@ -70,8 +70,6 @@ public class ReservasiService {
         userId = userDao.getIdByUsername(authentication.getName());
         model.addAttribute("cabang",cabangDao.getAllCabang());
         model.addAttribute("search",new SearchModel());
-
-
         return model;
     }
     public String manageSearchKamarAvailable(Model model,SearchModel searchModel){
@@ -81,6 +79,14 @@ public class ReservasiService {
         GlobalVariable.tanggalCheckIn = searchModel.getTanggalCheckIn();
         GlobalVariable.tanggalCheckOut = searchModel.getTanggalCheckOut();
         return "redirect:/tambahKamarReservasi";
+    }
+    public String manageSearchKamarReservasiPelangganAvailable(Model model,SearchModel searchModel){
+        GlobalVariable.cabangId = searchModel.getCabangId();
+        GlobalVariable.jumlahAnak = searchModel.getJumlahAnak();
+        GlobalVariable.jumlahDewasa = searchModel.getJumlahDewasa();
+        GlobalVariable.tanggalCheckIn = searchModel.getTanggalCheckIn();
+        GlobalVariable.tanggalCheckOut = searchModel.getTanggalCheckOut();
+        return "redirect:/tambahKamarReservasiPelanggan";
     }
     public Model getAllKamarTersediaReservasi(Model model){
 
@@ -310,11 +316,14 @@ public class ReservasiService {
         int userId = userDao.getIdByUsername(authentication.getName());
         r = reservasiDao.getOne(GlobalVariable.resId);
         DetailReservasi detailReservasi = new DetailReservasi();
-
-
         model.addAttribute("kodeBooking",r.getKodeBooking());
         model.addAttribute("details",detailReservasiDao.getAllDetailByResId(GlobalVariable.resId));
         model.addAttribute("total", reservasiDao.getTotalTransaction(GlobalVariable.resId));
+        model.addAttribute("tahun",reservasiDao.getTahun());
+        model.addAttribute("nama",userDao.getNamaUser(authentication.getName()));
+        model.addAttribute("alamat",userDao.getAlamatUser(authentication.getName()));
+        model.addAttribute("noTelp",userDao.getNoTelpUser(authentication.getName()));
+        model.addAttribute("email",userDao.getEmailUser(authentication.getName()));
         return model;
     }
 }

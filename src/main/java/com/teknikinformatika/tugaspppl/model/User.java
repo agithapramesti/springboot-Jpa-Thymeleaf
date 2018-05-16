@@ -40,6 +40,7 @@ public class User {
     private String namaPemegangKartu;
     @Column(name = "no_kartu")
     private String noKartu;
+    @Column(updatable = false)
     private Date tanggalUser;
     @ManyToOne
     @JoinColumn(name = "cabang_id",insertable=true, updatable=true)

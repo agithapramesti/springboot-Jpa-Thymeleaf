@@ -5,10 +5,20 @@ import com.teknikinformatika.tugaspppl.dao.role.RoleDao;
 import com.teknikinformatika.tugaspppl.dao.user.UserDao;
 import com.teknikinformatika.tugaspppl.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+
+import static com.sun.deploy.trace.TraceLevel.SECURITY;
 
 @Service
 @Transactional
@@ -19,18 +29,24 @@ public class UserService {
     private CabangDao cabangDao;
     @Autowired
     private RoleDao roleDao;
+    @Autowired
+    protected AuthenticationManager authenticationManager;
 
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     public String save(Model model,User user){
+
         if(userDao.countUserByNoIdentitas(user.getNoIdentitas())== 0){
             if(user.getRole().getRoleId()==0){
-
+                int latestId = userDao.getLatestId()+1;
                 user.getRole().setRoleId(8);
-                user.setUsername(null);
+                user.setUsername(latestId+"normalUser");
                 user.setStatusUser(1);
-                user.setKataSandi("-");
+                user.setKataSandi(latestId+"normalUser");
+                user.setTanggalUser(timestamp);
+
             }
             userDao.save(user);
-            return "redirect:/customerPage";
+            return "redirect:/reservasi";
         }
         else {
             System.out.println("#ERROR PADA INPUTAN USER ATAU NO IDENTITAS");
@@ -39,12 +55,33 @@ public class UserService {
         }
 
     }
+    public void authenticateUserAndSetSession(User user, HttpServletRequest request) {
+        String username = user.getUsername();
+        String password = user.getKataSandi();
+        System.out.println("wowGG"+username+""+password);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+        // generate session if one doesn't exist
+        request.getSession();
+        System.out.println("wowGG");
+        token.setDetails(new WebAuthenticationDetails(request));
+        Authentication authenticatedUser = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+        System.out.println(authenticatedUser.getName()+"Ilovegege");
+        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        System.out.println("wowGGKOKO");
+
+//        session.setAttribute("username", username);
+//        session.setAttribute("authorities", token.getAuthorities());
+
+    }
     public String saveUserRegistered(Model model,User user){
 
         if(userDao.countUserByUsername(user.getUsername()) ==0 && userDao.countUserByNoIdentitas(user.getNoIdentitas()) == 0) {
             if(user.getRole().getRoleId()==0){
                 user.getRole().setRoleId(7);
                 user.setStatusUser(1);
+                user.setTanggalUser(timestamp);
+
             }
             userDao.save(user);
             return "redirect:/customerPage";
@@ -75,7 +112,9 @@ public class UserService {
             if(userDao.countUserByUsername(user.getUsername()) == 0 && userDao.countUserByNoIdentitas(user.getNoIdentitas()) == 0){
                 user.getRole().setRoleId(7);
                 user.setStatusUser(1);
+                user.setTanggalUser(timestamp);
                 userDao.save(user);
+
                 return "redirect:/dataPelanggan";
             }
             else {
@@ -87,6 +126,7 @@ public class UserService {
             int id =  user.getUserId();
             int statusUser = userDao.getStatusUserById(id);
             user.setStatusUser(statusUser);
+            user.setTanggalUser(timestamp);
             if(oldUsername.equalsIgnoreCase(user.getUsername()))
             {
 
@@ -180,5 +220,64 @@ public class UserService {
         model.addAttribute("roles",roleDao.findAllRolesPegawai());
         return model;
     }
+    public Model kelolaDataPelanggan(Model model, Authentication authentication){
+        int userId  = userDao.getIdByUsername(authentication.getName());
+        String username = userDao.getUsernameUserById(userId);
+        model.addAttribute("nama",userDao.getNamaUser(username));
+        model.addAttribute("alamat",userDao.getAlamatUser(username));
+        model.addAttribute("noTelp",userDao.getNoTelpUser(username));
+        model.addAttribute("noIden",userDao.getNoIdentitasUser(username));
+        model.addAttribute("email",userDao.getEmailUser(username));
+        model.addAttribute("noKartu",userDao.getNoKartuUser(username));
+        model.addAttribute("namaPemegang",userDao.getNamaPemegangUser(username));
+        return model;
+    }
+    public Model manageUbahProfilAkun(Model model, Authentication authentication){
+        int idUser = userDao.getIdByUsername(authentication.getName());
+        model.addAttribute("users",userDao.findById(idUser));
+        model.addAttribute("cabangs",cabangDao.getAllCabang());
+        return model;
+    }
+    public String ubahProfil(Model model, User user){
 
+        if(user.getUserId()==0){
+            if(userDao.countUserByUsername(user.getUsername()) == 0 && userDao.countUserByNoIdentitas(user.getNoIdentitas()) == 0){
+                user.getRole().setRoleId(7);
+                user.setStatusUser(1);
+                user.setTanggalUser(timestamp);
+                userDao.save(user);
+
+                return "redirect:/halamanPelanggan";
+            }
+            else {
+                return "redirect:/exceptionHandling";
+            }
+        }
+        else{
+            String oldUsername = userDao.getUsernameUserById(user.getUserId());
+            int id =  user.getUserId();
+            int statusUser = userDao.getStatusUserById(id);
+            user.setStatusUser(statusUser);
+            user.setTanggalUser(timestamp);
+            if(oldUsername.equalsIgnoreCase(user.getUsername()))
+            {
+
+                userDao.save(user);
+                return "redirect:/halamanPelanggan";
+            }
+            else
+            {
+                if(userDao.countUserByUsername(user.getUsername()) == 0){
+                    userDao.save(user);
+                    return "redirect:/halamanPelanggan";
+                }
+                else {
+                    return "redirect:/exceptionHandling";
+                }
+            }
+
+        }
+
+    }
 }
+

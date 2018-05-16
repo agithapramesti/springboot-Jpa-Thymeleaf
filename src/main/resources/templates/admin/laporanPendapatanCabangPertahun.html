@@ -56,71 +56,28 @@
 
 <div class="container">
     <div class="row">
-        <b>Tahun: </b>
-        <span th:text="${tahun}"></span>
+
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Bulan</th>
-                <th>Pendapatan Personal(Rp.)</th>
-                <th>Pendapatan Grup(Rp.)</th>
+                <th>Tahun</th>
+                <th>Yogyakarta(Rp.)</th>
+                <th>Bandung(Rp.)</th>
                 <th>Total(Rp.)</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="incomeBln: ${incomeBln}">
+            <tr th:each="pendapatan: ${pendapatan}">
 
-                <td th:text="${incomeBln.tanggal}"></td>
-                <td th:text="${incomeBln.personal}"></td>
-                <td th:text="${incomeBln.grup}"></td>
-                <td th:text="${incomeBln.total}"></td>
+                <td th:text="${pendapatan.bulan}"></td>
+                <td th:text="${pendapatan.yogyakarta}"></td>
+                <td th:text="${pendapatan.bandung}"></td>
+                <td th:text="${pendapatan.total}"></td>
             </tr>
             </tbody>
         </table>
-        <b>Total Seluruh: Rp. </b>
-        <span th:text="${totalSeluruh}"></span>
-        <br>
-        <b>Kota Cabang Yogya</b>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Bulan</th>
-                <th>Pendapatan Personal(Rp.)</th>
-                <th>Pendapatan Grup(Rp.)</th>
-                <th>Total(Rp.)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="incomeBlnYgy: ${incomeBlnYgy}">
-
-                <td th:text="${incomeBlnYgy.tanggal}"></td>
-                <td th:text="${incomeBlnYgy.personal}"></td>
-                <td th:text="${incomeBlnYgy.grup}"></td>
-                <td th:text="${incomeBlnYgy.total}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <br>
-        <b>Kota Cabang Bandung</b>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Bulan</th>
-                <th>Pendapatan Personal(Rp.)</th>
-                <th>Pendapatan Grup(Rp.)</th>
-                <th>Total(Rp.)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="incomeBlnBdg: ${incomeBlnBdg}">
-
-                <td th:text="${incomeBlnBdg.tanggal}"></td>
-                <td th:text="${incomeBlnBdg.personal}"></td>
-                <td th:text="${incomeBlnBdg.grup}"></td>
-                <td th:text="${incomeBlnBdg.total}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <b>Total: </b>
+        <span th:text="${total}"></span>
     </div>
 </div>
 </body>

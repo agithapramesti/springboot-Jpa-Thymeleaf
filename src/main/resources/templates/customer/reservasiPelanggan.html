@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/js/moment-with-locales.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+
+
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+
+    <link th:href="@{/css/customerPage.css}" rel="stylesheet" media="screen"/>
+    <style>
+        body{
+            height:768px;
+            background-image: url([[@{/images/bg08.jpeg}]]);
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+        .luarMiddleman{
+            height:100%;
+            background-color:rgba(0,0,0,0.8);
+
+        }
+        .middleman{
+            border-radius:5px;
+            background-color:white;
+            margin-top: 25%;
+        }
+        .insideMiddleman{
+            margin-left:13%;
+        }
+        .addButton {
+            padding: 10px 20px;
+            background-color: darkorange;
+            color: white;
+            border-radius: 0;
+            transition: .2s;
+        }
+        .addButton:hover, .addButton:focus {
+            border: 1px solid darkorange;
+            background-color: white;
+            color: darkorange;
+
+        }
+    </style>
+</head>
+<body>
+<nav style="margin-bottom:0px;" class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Grand Atma Hotels</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/halamanPelanggan">Data Akun</a></li>
+                <li><a href="/reservasi">Reservasi</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Lainnya<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/ubahProfil">Ubah Profil</a></li>
+                        <li><a href="/pemesananSaya">Pemesanan Saya</a></li>
+                        <li><a href="#">Pembatalan Pemesanan</a></li>
+                        <li><a href="#">Perpanjang Durasi Menginap</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="luarMiddleman container-fluid">
+    <div class="col-sm-2">&nbsp;</div>
+    <div class=" col-sm-8">
+        <div class="middleman row-fluid">
+            <div class="insideMiddleman row">
+                <form style="opacity:1;" id="myForm" class="form-horizontal"  th:object="${search}" onsubmit="return validateForm()"  th:action="@{/reservasiPelanggan/search}" method="post">
+                    <div class="row">
+                        <div style="float:left;" class='input-group date col-xs-5 col-sm-5 col-md-5' id='datetimepicker1'>
+                            <span style="float:left">&nbsp;</span>
+
+                            <span>
+                                    <input id="tanggalCheckIn" th:field="*{tanggalCheckIn}" type='text' class="form-control" placeholder="Check In" required>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </span>
+
+                        </div>
+
+                        <div class='input-group date col-xs-5 col-sm-5 col-md-5' id='datetimepicker2'>
+                            <span>&nbsp;</span>
+                            <div>
+                                <input id="tanggalCheckOut" th:field="*{tanggalCheckOut}" type='text' class="form-control" placeholder="Check Out" required>
+                                <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    -->
+                    <div style="float:left" class="form-group col-sm-3">
+
+                        <b>Jumlah Anak</b><br>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-th-list" aria-hidden="true"></i></span>
+                            <input type="number" id="anak" min="0" max="20" class="form-control" maxlength="2" name="jumlahAnak"  th:field="*{jumlahAnak}"
+                                   placeholder="Jumlah Anak"/>
+                        </div>
+                        <span>&nbsp;</span>
+                    </div>
+
+                    <div style="float:left" class="form-group col-sm-3">
+
+
+                        <b>Jumlah Dewasa</b>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-th-list" aria-hidden="true"></i></span>
+                            <input type="number" id="dewasa" class="form-control" min="0" max="20" maxlength="2" name="jumlahDewasa"  th:field="*{jumlahDewasa}"
+                                   placeholder="Jumlah Dewasa"/>
+                        </div>
+                    </div>
+
+                    <div style="float:left" class="col-sm-3">
+                        <b>Kota Cabang</b>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home" aria-hidden="true"></i></span>
+                            <select class="form-control"  th:field="*{cabangId}">
+                                <option th:each="cabang: ${cabang}"
+                                        th:value="${cabang.cabangId}"
+                                        th:text="${cabang.namaCabang}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-2">
+                        <span>&nbsp;</span>
+                        <span class="input-group-btn">
+                            <button class="addButton btn btn-default btn-search glyphicon glyphicon-search" type="submit" name="button">  Search</button>
+                            </span>
+                    </div>
+
+                </form>
+                <!-- panel preview -->
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col-sm-2">&nbsp;</div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker2').datetimepicker();
+    });
+    function myFunction() {
+        alert("Proses Berhasil!");
+    }
+
+</script>
+<script type="text/javascript">
+    function validateForm() {
+        var x = parseInt(document.getElementById("anak").value);
+        var y = parseInt(document.getElementById("dewasa").value);
+        var tanggalCheckIn = moment(document.getElementById("tanggalCheckIn").value);
+        var tanggalCheckOut = moment(document.getElementById("tanggalCheckOut").value);
+        if (x + y > 20 || x+y <=0 || y<=0) {
+            alert("Inputan Jumlah Salah! Silahkan Masukkan Kembali");
+            return false;
+        }
+        if(tanggalCheckIn.diff(tanggalCheckOut,'days')>=0){
+            alert("Inputan Tanggal Salah! Silahkan Masukkan Kembali");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

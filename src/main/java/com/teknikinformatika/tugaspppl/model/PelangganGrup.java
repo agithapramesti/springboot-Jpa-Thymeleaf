@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Data
@@ -37,6 +38,7 @@ public class PelangganGrup {
     @Column(name = "no_identitas_ketua", nullable = false)
     @Size(max = 20)
     private String noIdentitasKetua;
+    private Date tanggalGrup;
     @ManyToOne
     @JoinColumn(name = "user_id",insertable=false, updatable=false)
     private User user;

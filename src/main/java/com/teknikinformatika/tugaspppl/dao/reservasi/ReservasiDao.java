@@ -49,7 +49,7 @@ public interface ReservasiDao extends JpaRepository<Reservasi,Integer>{
     double getTotalTransaction(@Param("resId")int resId);
     @Query(value = "SELECT sum(IFNULL(SecondSet.Personal,0)+IFNULL(ThirdSet.Grup,0)) AS 'Total' FROM ( SELECT date_format(r.tanggal_reservasi,'%M') AS 'tanggal' FROM reservasi r GROUP BY date_format(r.tanggal_reservasi,'%M') ) AS FirstSet LEFT OUTER JOIN ( SELECT date_format(r.tanggal_reservasi,'%M') as 'tanggal', sum(r.total_transaksi) as \"Personal\" FROM reservasi r WHERE r.jenis_reservasi = 'P' GROUP by date_format(r.tanggal_reservasi,'%M') ) as SecondSet on FirstSet.tanggal = SecondSet.tanggal left outer JOIN ( SELECT date_format(r.tanggal_reservasi,'%M') as 'tanggal', sum(r.total_transaksi) as \"Grup\" FROM reservasi r WHERE r.jenis_reservasi = 'G' GROUP by date_format(r.tanggal_reservasi,'%M') )as ThirdSet on FirstSet.tanggal = ThirdSet.tanggal",nativeQuery = true)
     double getTotalPerulan();
-    @Query(value = "SELECT COUNT(U.user_id) as \"total\" FROM user U WHERE U.role_id = 7 and YEAR(U.tanggal_user) = YEAR(CURRENT_DATE)",nativeQuery = true)
+    @Query(value = "SELECT COUNT(user.user_id) as \"jumlah\" FROM user WHERE YEAR(user.tanggal_user)=YEAR(CURRENT_DATE) and (user.role_id=7 or user.role_id=8)",nativeQuery = true)
     int getTotalCustomerBaru();
     @Query(value = "SELECT sum(IFNULL(SecondSet.jumlahOrang,0)+IFNULL(ThirdSet.jumlahOrang,0)) AS 'Total' \n" +
             "FROM \n" +
@@ -85,4 +85,10 @@ public interface ReservasiDao extends JpaRepository<Reservasi,Integer>{
     List<Reservasi> getAllReservasisNotCheckOut();
     @Query(value = "SELECT * FROM reservasi WHERE reservasi.status_reservasi = 'check-out'",nativeQuery = true)
     List<Reservasi> getAllReservasisCheckOut();
+    @Query(value = "SELECT YEAR(CURRENT_DATE)", nativeQuery = true)
+    int getTahunIni();
+    @Query(value = "SELECT sum(IFNULL(SecondSet.Total,0)+IFNULL(ThirdSet.Total,0)) AS 'Total' FROM ( SELECT YEAR(reservasi.tanggal_reservasi) AS 'Tahun' FROM reservasi GROUP BY YEAR(reservasi.tanggal_reservasi) ) AS FirstSet LEFT OUTER JOIN ( SELECT YEAR(reservasi.tanggal_reservasi) AS 'Tahun', SUM(reservasi.total_transaksi) AS 'Total' FROM reservasi WHERE cabang_id=1 GROUP BY YEAR(reservasi.tanggal_reservasi) ) as SecondSet on FirstSet.Tahun = SecondSet.Tahun left outer JOIN ( SELECT YEAR(reservasi.tanggal_reservasi) AS 'Tahun', SUM(reservasi.total_transaksi) AS 'Total' FROM reservasi WHERE cabang_id=2 GROUP BY YEAR(reservasi.tanggal_reservasi) )as ThirdSet on FirstSet.Tahun = ThirdSet.Tahun",nativeQuery = true)
+    double totalPendapatanCabangTahunan();
+    @Query(value = "SELECT DATE_FORMAT(CURRENT_DATE, '%d %M %Y' )",nativeQuery = true)
+    String getTahun();
 }

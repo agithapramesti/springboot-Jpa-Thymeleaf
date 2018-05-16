@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +17,12 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @SuppressWarnings("deprecation")
     @Bean
@@ -39,10 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .authorizeRequests().antMatchers("/css/**","/customerPage","/js/**","/fonts/**","/images/**","/daftar").permitAll() // Enable css when logged out
+                .authorizeRequests().antMatchers("/css/**","/customerPage","/reservasi","/nota","/js/**","/fonts/**","/images/**","/daftar").permitAll() // Enable css when logged out
                 .and()
                 .authorizeRequests()
-                .antMatchers("home","/data/**","season","/tambah/**","/edit/**","/hasil/**","/nota").access("hasAnyAuthority('PM')")
+                .antMatchers("home","/data/**","season","/tambah/**","/edit/**","/hasil/**").access("hasAnyAuthority('PM')")
                 .antMatchers("/homePelanggan").access("hasAnyAuthority('pelangganRegister')")
                 .anyRequest().authenticated()
                 .and()

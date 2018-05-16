@@ -14,7 +14,7 @@
     <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
     <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
     <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/css/styleTable.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/halamanPelangganCss.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -29,21 +29,19 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="/home">Home</a></li>
-                <li><a href="/reservasi">Reservasi</a></li>
-                <li><a href="/season">Season</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Admin <span class="caret"></span></a>
+                <li><a href="/halamanPelanggan">Data Akun</a></li>
+                <li><a href="/reservasiPelanggan">Reservasi</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Lainnya<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/dataPelanggan">Data Pelanggan</a></li>
-                        <li><a href="/dataPegawai">Data Pegawai</a></li>
-                        <li><a href="/dataKamar">Data Kamar</a></li>
-                        <li><a href="/dataJenisKamar">Data Jenis Kamar</a></li>
-                        <li><a href="#">Kelola Reservasi</a></li>
-                        <li><a href="/laporan">Laporan</a></li>
+                        <li><a href="/ubahProfil">Ubah Profil</a></li>
+                        <li><a href="/pemesananSaya">Pemesanan Saya</a></li>
+                        <li><a href="#">Pembatalan Pemesanan</a></li>
+                        <li><a href="#">Perpanjang Durasi Menginap</a></li>
                     </ul>
                 </li>
 
             </ul>
+
             <ul class="nav navbar-nav navbar-right">
 
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
@@ -52,33 +50,25 @@
     </div>
 </nav>
 
-<!------ Include the above in your HEAD tag ---------->
+<div class="row">
 
-<div class="container">
-    <div class="row">
+    <br><br>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Jenis Kamar</th>
-                <th>Grup</th>
-                <th>Personal</th>
-                <th>Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="jmlTamu: ${jmlTamu}">
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Tanggal Check In</th>
+                    <th>Tanggal Check In</th>
+                    <th>Sub Total</th>
+                </tr>
+                </thead>
+                <tbody>
 
-                <td th:text="${jmlTamu.namaJenisKamar}"></td>
-                <td th:text="${jmlTamu.personal}"></td>
-                <td th:text="${jmlTamu.grup}"></td>
-                <td th:text="${jmlTamu.total}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <b>Total: </b>
-        <span th:text="${total}"></span>
-    </div>
+                </tbody>
+            </table>
+        </div><!-- /.col -->
+
 </div>
 </body>
 </html>

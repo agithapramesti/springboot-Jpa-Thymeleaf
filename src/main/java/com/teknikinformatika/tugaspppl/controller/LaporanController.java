@@ -31,4 +31,14 @@ public class LaporanController {
         reportService.getJumlahTamu(model);
         return "/admin/laporanJumlahTamu";
     }
+    @RequestMapping(value = "/laporanCustomerReservasiTerbanyak",method = RequestMethod.GET)
+    public String laporanCustomerReservasiTerbanyak(Model model){
+        reportService.getCustomerTerbanyak(model);
+        return "/admin/laporanCustomerReservasiTerbanyak";
+    }
+    @RequestMapping(value = "/laporanPendapatanCabangPertahun",method = RequestMethod.GET)
+    public String laporanPendapatanCabangPertahun(Model model){
+        reportService.getPedapatanCabangPertahun(model);
+        return "/admin/laporanPendapatanCabangPertahun";
+    }
 }

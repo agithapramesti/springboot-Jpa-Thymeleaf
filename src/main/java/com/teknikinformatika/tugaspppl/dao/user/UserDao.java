@@ -31,7 +31,24 @@ public interface UserDao extends JpaRepository<User,Integer>{
     @Query(value = "SELECT user.username FROM user WHERE user.user_id= :id ", nativeQuery = true)
     String getUsernameUserById(@Param("id") Integer id);
     @Query(value = "SELECT user.user_id FROM user WHERE user.username= :username ", nativeQuery = true)
-    int getIdByUsername(@Param("username") String username);
+    Integer getIdByUsername(@Param("username") String username);
     @Query(value = "SELECT user.user_id,user.email,user.kata_sandi,user.nama,user.nama_pemegang_kartu,user.no_identitas,user.no_kartu,user.no_telp,user.status_user,user.username,user.cabang_id=:cabangId,user.role_id=:roleId,user.alamat,user.tanggal_user from user  JOIN reservasi ON user.user_id = reservasi.user_id WHERE reservasi.user_id=:userId LIMIT 1",nativeQuery = true)
     User getUserByResId(@Param("userId")int userId,@Param("cabangId")int cabangId, @Param("roleId")int roleId);
+    @Query(value = "SELECT user.user_id FROM user ORDER BY user.user_id DESC LIMIT 1", nativeQuery = true)
+    int getLatestId();
+    @Query(value = "SELECT user.nama FROM user WHERE user.username=:username",nativeQuery = true)
+    String getNamaUser(@Param("username") String username);
+    @Query(value = "SELECT user.alamat FROM user WHERE user.username=:username",nativeQuery = true)
+    String getAlamatUser(@Param("username") String username);
+    @Query(value = "SELECT user.email FROM user WHERE user.username=:username",nativeQuery = true)
+    String getEmailUser(@Param("username") String username);
+    @Query(value = "SELECT user.no_telp FROM user WHERE user.username=:username",nativeQuery = true)
+    String getNoTelpUser(@Param("username") String username);
+    @Query(value = "SELECT user.no_identitas FROM user WHERE user.username=:username",nativeQuery = true)
+    String getNoIdentitasUser(@Param("username") String username);
+    @Query(value = "SELECT user.no_kartu FROM user WHERE user.username=:username",nativeQuery = true)
+    String getNoKartuUser(@Param("username") String username);
+    @Query(value = "SELECT user.nama_pemegang_kartu FROM user WHERE user.username=:username",nativeQuery = true)
+    String getNamaPemegangUser(@Param("username") String username);
+
 }

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+
+
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+    <link th:href="@{/css/customerPage.css}" rel="stylesheet" media="screen"/>
+    <style>
+        .addButton {
+            padding: 10px 20px;
+            background-color: darkorange;
+            color: white;
+            border-radius: 0;
+            transition: .2s;
+        }
+        .addButton:hover, .addButton:focus {
+            border: 1px solid darkorange;
+            background-color: white;
+            color: darkorange;
+
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Grand Atma Hotels</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/halamanPelanggan">Data Akun</a></li>
+                <li><a href="/reservasi">Reservasi</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu Lainnya<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/ubahProfil">Ubah Profil</a></li>
+                        <li><a href="/pemesananSaya">Pemesanan Saya</a></li>
+                        <li><a href="#">Pembatalan Pemesanan</a></li>
+                        <li><a href="#">Perpanjang Durasi Menginap</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <legend>Pelanggan Personal:</legend>
+        </div>
+        <!-- panel preview -->
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body form-horizontal payment-form">
+                    <form th:object="${users}" th:action="@{/ubahProfil/}" method="post">
+                        <input type="hidden" th:field="*{userId}"/>
+                        <input type="hidden" th:field="*{statusUser}"/>
+                        <input type="hidden" th:field="*{role.roleId}"/>
+                        <input type="hidden" th:field="*{noIdentitas}"/>
+                        <input type="hidden" th:field="*{username}"/>
+                        <input type="hidden" th:field="*{kataSandi}"/>
+                        <div class="form-group">
+                            <label for="nama" class="col-sm-3 control-label">Nama Pelanggan</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{nama}"  maxlength="25"  type="text" class="form-control" id="nama" name="nama" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="noTelp" class="col-sm-3 control-label">Nomor Telpon</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{noTelp}"  maxlength="16"  type="text" class="form-control" id="noTelp" name="noTelp" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{email}"  maxlength="30"  type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat" class="col-sm-3 control-label">Alamat</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{alamat}" maxlength="255" type="text" class="form-control" id="alamat" name="alamat" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-sm-3 control-label">Cabang</label>
+                            <div class="col-sm-9">
+                                <select th:field="*{cabang.cabangId}"  class="form-control" id="status" >
+                                    <option th:each="cabangs : ${cabangs}"
+                                            th:value="${cabangs.cabangId}"
+                                            th:text="${cabangs.namaCabang}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="namaPemegangKartu" class="col-sm-3 control-label">Nama Pemegang Kartu</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{namaPemegangKartu}" maxlength="255" type="text" class="form-control" id="namaPemegangKartu" name="namaPemegangKartu" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="noKartu" class="col-sm-3 control-label">Nomor Kartu</label>
+                            <div class="col-sm-9">
+                                <input  th:field="*{noKartu}" maxlength="255"  type="text" class="form-control" id="noKartu" name="noKartu" required>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <hr style="border:1px dashed #dddddd;">
+                                <button type="submit" onclick="myFunction()" class="btn btn-block addButton">Submit dan selesai</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div> <!-- / panel preview -->
+
+    </div>
+</div>
+<script type="text/javascript">
+    function myFunction() {
+        alert("Proses Berhasil!");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/css/font1.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/css/font2.css}" rel="stylesheet" media="screen">
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+
+
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+
+    <link th:href="@{/css/customerPage.css}" rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/rg-1.0.2/rr-1.2.3/datatables.min.js"></script>
+    <style>
+        .addButton {
+            padding: 10px 20px;
+            background-color: dodgerblue;
+            color: white;
+            border-radius: 0;
+            transition: .2s;
+        }
+        .addButton:hover, .addButton:focus {
+            border: 1px solid dodgerblue;
+            background-color: white;
+            color: dodgerblue;
+
+        }
+        .dangerButton {
+            padding: 10px 20px;
+            background-color: #d9534f;
+            color: white;
+            border-radius: 0;
+            transition: .2s;
+        }
+        .dangerButton:hover, .dangerButton:focus {
+            border: 1px solid #d9534f;
+            background-color: white;
+            color: #d9534f;
+
+        }
+        .addButton2 {
+            padding: 10px 20px;
+            background-color: darkorange;
+            color: white;
+            border-radius: 0;
+            transition: .2s;
+        }
+        .addButton2:hover, .addButton2:focus {
+            border: 1px solid darkorange;
+            background-color: white;
+            color: darkorange;
+
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Grand Atma Hotels</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <form th:action="@{/logout}" method="post">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <input type="submit" value="Keluar" class="btn btn-danger"/>
+                </form>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <br>
+    <div class="pull-left">
+
+        <a  href="/tambahKamarReservasiPelanggan/kembali" class="btn btn-default text-center btn-primary ">
+            <i class="glyphicon glyphicon-unshare "></i>&nbsp;&nbsp;&nbsp;Kembali
+        </a>
+    </div>
+    <br><br>
+    <div class="col-sm-6">
+        <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-8">
+                        <b>Daftar Kamar Tersedia</b>
+                    </div>
+                </div>
+            </div>
+            <div  class="panel-body">
+                <table class="datatable1 table-responsive text-center table table-hover table-bordered" th:if="${not #lists.isEmpty(kamar)}" id="showTable" cellspacing="0" width="100%">
+                    <thead class="text-primary text-center">
+                    <th>Gambar</th>
+                    <th>Jenis Kamar</th>
+                    <th>Harga (Rp.)</th>
+                    <th>Kamar Tersedia</th>
+                    <th>Jumlah</th>
+                    <th>Action</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="kamar: ${kamar}" th:if="${kamar.stok}>0">
+                        <form method="post"  th:action="@{'/tambahKamarReservasiPelanggan/tambah/'+${ kamar.jenisKamarId}}" >
+                            <input hidden="hidden" name="jenisKamarId" th:value="${kamar.jenisKamarId}"/>
+                            <input hidden="hidden" name="xx" th:value="${kamar.kapasitas}"/>
+                            <td name="gambarKamar" th:value="${kamar.gambarKamar}">
+                                <img th:src="${kamar.gambarKamar}" alt="gambarKamar" width="100" height="60">
+                                <input th:value="${kamar.gambarKamar}" hidden="hidden" readonly="readonly"/>
+                            </td>
+                            <td name="namaJenisKamar" th:value="${kamar.namaJenisKamar}" th:text="${kamar.namaJenisKamar}">
+                                <input th:value="${kamar.namaJenisKamar}" hidden="hidden" readonly="readonly"/>
+                            </td>
+                            <td name="hargaJenisKamar" th:value="${kamar.hargaJenisKamar}" th:text="${kamar.hargaJenisKamar}">
+                                <input th:value="${kamar.hargaJenisKamar}" hidden="hidden" readonly="readonly"/>
+                            </td>
+
+                            <td name="stok" th:value="${kamar.stok}" th:text="${kamar.stok}">
+                                <input id="stok" th:value="${kamar.stok}" hidden="hidden" readonly="readonly"/>
+                            </td>
+                            <td id="qty" class="ip-qty">
+                                <input id="quantity" type="number" class="form-control" value="1" name="quantity"
+                                       th:object="${quantity}" th:value="${quantity}" min="0"  th:max="${kamar.stok}" required="true"/>
+                            </td>
+                            <td>
+                                <input type="submit" class="btn btn-primary addButton" value="Add">
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-8">
+                        <b>Daftar Pemesanan</b>
+                    </div>
+                </div>
+            </div>
+            <div  class="panel-body">
+                <b>Jumlah Kamar Yang Harus Dipesan: </b>
+                <b id="x" th:text="${jumlahKamar}"></b>
+                <input id="y" hidden="hidden" th:value="${totalStok}">
+                <b> kamar</b>
+                <table class="datatable table-responsive text-center table table-hover table-bordered" th:if="${not #lists.isEmpty(kamarTemp)}" id="showTable" cellspacing="0" width="100%">
+                    <thead class="text-primary text-center">
+
+                    <th>Jenis Kamar</th>
+                    <th>Harga (Rp.)</th>
+                    <th>Jumlah Kamar</th>
+                    <th>Action</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="kamarTemp: ${kamarTemp}" th:if="${kamarTemp.stok}>0">
+                        <td th:text="${kamarTemp.namaJenisKamar}"></td>
+                        <td th:text="${kamarTemp.hargaKamar}"></td>
+                        <td th:text="${kamarTemp.stok}"></td>
+                        <td>
+                            <a class="btn glyphicon glyphicon-trash dangerButton" th:href="${'/tambahKamarReservasiPelanggan/hapus/'+kamarTemp.jenisKamarId}"></a>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+                <a href="#" onclick="tes()" type="button" class="pull-right btn addButton2" >Lanjutkan Pemesanan</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    function tes()
+    {
+        var x = parseInt(document.getElementById("x").innerHTML);
+        //alert(x);
+        var y = parseInt(document.getElementById("y").value);
+        //alert(y);
+        if(y!=x || y==0 || x==0)
+        {
+            alert("Jumlah Kamar Tidak Sesuai!");
+            window.location='tambahKamarReservasiPelanggan';
+        }
+        else
+        {
+            window.location='tambahFasilitasBerbayarPelanggan';
+        }
+
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        $( '#showTable' ).searchable({
+            striped: true,
+            oddRow: { 'background-color': '#f5f5f5' },
+            evenRow: { 'background-color': '#fff' },
+            searchType: 'fuzzy'
+        });
+    });
+    $(document).ready(function() {
+        $('.datatable1').DataTable({
+            paging:false,
+            info:false,
+            lengthChange:false
+        });
+        $('.datatable').DataTable({
+            paging:false,
+            searching:false,
+            info:false,
+            lengthChange:false
+        });
+    });
+</script>
+
+</body>
+</html>
